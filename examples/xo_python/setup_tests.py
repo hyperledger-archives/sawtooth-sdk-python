@@ -1,4 +1,4 @@
-# Copyright 2017 Intel Corporation
+# Copyright 2018 Intel Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,25 +20,17 @@ import subprocess
 
 from setuptools import setup, find_packages
 
-conf_dir = "/etc/sawtooth"
 
-data_files = [
-    (conf_dir, ['packaging/xo.toml.example'])
-]
+data_files = []
 
-if os.path.exists("/etc/default"):
-    data_files.append(
-        ('/etc/default', ['packaging/systemd/sawtooth-xo-tp-python']))
-
-if os.path.exists("/lib/systemd/system"):
-    data_files.append(('/lib/systemd/system',
-                       ['packaging/systemd/sawtooth-xo-tp-python.service']))
+if os.path.exists("tests"):
+    data_files.append(('/data/tests/xo', ['tests/test_tp_xo.py']))
 
 setup(
-    name='sawtooth-xo',
+    name='sawtooth-xo-tests',
     version=subprocess.check_output(
-        ['../../../bin/get_version']).decode('utf-8').strip(),
-    description='Sawtooth XO Example',
+        ['../../bin/get_version']).decode('utf-8').strip(),
+    description='Sawtooth XO Python Test',
     author='Hyperledger Sawtooth',
     url='https://github.com/hyperledger/sawtooth-core',
     packages=find_packages(),

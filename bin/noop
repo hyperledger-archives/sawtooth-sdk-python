@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.join(
 
 sys.path.insert(0, os.path.join(
     os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-    'sdk', 'examples', 'noop_python'))
+    'examples', 'noop_python'))
 sys.path.insert(0, os.path.join(
     os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
     ))

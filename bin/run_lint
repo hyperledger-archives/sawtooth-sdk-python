@@ -166,8 +166,8 @@ lint signing "$SINCE" || retval=1
 
 # sdk, xo, intkey
 PYTHONPATH=$top_dir/
-PYTHONPATH=$PYTHONPATH:$top_dir/sdk/examples/intkey_python
-PYTHONPATH=$PYTHONPATH:$top_dir/sdk/examples/xo_python
+PYTHONPATH=$PYTHONPATH:$top_dir/examples/intkey_python
+PYTHONPATH=$PYTHONPATH:$top_dir/examples/xo_python
 PYTHONPATH=$PYTHONPATH:$top_dir/signing
 export PYTHONPATH
 lint . "$SINCE" || retval=1

@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# docker build -f sdk/examples/intkey_python/Dockerfile -t intkey-tp-python-local .
+# docker build -f examples/sdk/xo_python/Dockerfile -t xo-tp-python-local .
 
-# -------------=== intkey-tp-python build ===-------------
+# -------------===  build ===-------------
 
 FROM ubuntu:bionic
 
@@ -49,8 +49,8 @@ ENV PATH=$PATH:/project/sawtooth-core/bin
 
 WORKDIR /project/sawtooth-core
 
-CMD echo "\033[0;32m--- Building intkey-tp-python ---\n\033[0m" \
+CMD echo "\033[0;32m--- Building xo-tp-python ---\n\033[0m" \
  && bin/protogen \
- && cd sdk/examples/intkey_python \
+ && cd examples/xo_python \
  && python3 setup.py clean --all \
  && python3 setup.py build

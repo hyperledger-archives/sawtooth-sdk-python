@@ -19,7 +19,7 @@ services:
   intkey-tp-python:
     build:
       context: .
-      dockerfile: sdk/examples/intkey_python/Dockerfile-installed-${DISTRO}
+      dockerfile: examples/intkey_python/Dockerfile-installed-${DISTRO}
       args:
         - http_proxy
         - https_proxy
@@ -33,7 +33,7 @@ services:
   xo-tp-python:
     build:
       context: .
-      dockerfile: sdk/examples/xo_python/Dockerfile-installed-${DISTRO}
+      dockerfile: examples/xo_python/Dockerfile-installed-${DISTRO}
       args:
         - http_proxy
         - https_proxy
@@ -69,7 +69,7 @@ services:
   intkey-tests:
     build:
       context: .
-      dockerfile: sdk/examples/intkey_python/Dockerfile-tests-installed
+      dockerfile: examples/intkey_python/Dockerfile-tests-installed
       args:
         - http_proxy
         - https_proxy
@@ -80,7 +80,7 @@ services:
   xo-tests:
     build:
       context: .
-      dockerfile: sdk/examples/xo_python/Dockerfile-tests-installed
+      dockerfile: examples/xo_python/Dockerfile-tests-installed
       args:
         - http_proxy
         - https_proxy

@@ -12,21 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# docker build -f sdk/examples/xo_python/Dockerfile-installed -t sawtooth-xo-tp-python .
+# docker build -f examples/xo_python/Dockerfile-installed-xenial -t sawtooth-xo-tp-python .
 
 # -------------=== signing build ===-------------
-FROM ubuntu:bionic as sawtooth-signing-builder
-
-RUN apt-get update \
- && apt-get install gnupg -y
+FROM ubuntu:xenial as sawtooth-signing-builder
 
 ENV VERSION=AUTO_STRICT
 
-RUN echo "deb http://repo.sawtooth.me/ubuntu/ci bionic universe" >> /etc/apt/sources.list \
+RUN echo "deb http://repo.sawtooth.me/ubuntu/ci xenial universe" >> /etc/apt/sources.list \
  && (apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD \
  || apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 8AA7AF1F1091A5FD) \
  && apt-get update \
- && apt-get install -y -q \
+ && apt-get install -y -q --allow-downgrades \
     git \
     python3 \
     python3-protobuf \
@@ -47,18 +44,15 @@ RUN /project/bin/protogen \
 
 # -------------=== python sdk build ===-------------
 
-FROM ubuntu:bionic as sawtooth-sdk-python-builder
-
-RUN apt-get update \
- && apt-get install gnupg -y
+FROM ubuntu:xenial as sawtooth-sdk-python-builder
 
 ENV VERSION=AUTO_STRICT
 
-RUN echo "deb http://repo.sawtooth.me/ubuntu/ci bionic universe" >> /etc/apt/sources.list \
+RUN echo "deb http://repo.sawtooth.me/ubuntu/ci xenial universe" >> /etc/apt/sources.list \
  && (apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD \
  || apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 8AA7AF1F1091A5FD) \
  && apt-get update \
- && apt-get install -y -q \
+ && apt-get install -y -q --allow-downgrades \
     git \
     python3 \
     python3-colorlog \
@@ -76,27 +70,24 @@ COPY . /project
 RUN dpkg -i /tmp/python3-sawtooth-*.deb || true \
  && apt-get -f -y install \
  && /project/bin/protogen \
- && cd /project/sdk/python \
+ && cd /project/ \
  && if [ -d "debian" ]; then rm -rf debian; fi \
  && python3 setup.py clean --all \
  && python3 setup.py --command-packages=stdeb.command debianize \
  && if [ -d "packaging/ubuntu" ]; then cp -R packaging/ubuntu/* debian/; fi \
  && dpkg-buildpackage -b -rfakeroot -us -uc
 
-# -------------=== python xo tests build ===-------------
+# -------------=== python xo tp build ===-------------
 
-FROM ubuntu:bionic as python-xo-tests-builder
-
-RUN apt-get update \
- && apt-get install gnupg -y
+FROM ubuntu:xenial as python-xo-tp-builder
 
 ENV VERSION=AUTO_STRICT
 
-RUN echo "deb http://repo.sawtooth.me/ubuntu/ci bionic universe" >> /etc/apt/sources.list \
+RUN echo "deb http://repo.sawtooth.me/ubuntu/ci xenial universe" >> /etc/apt/sources.list \
  && (apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD \
  || apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 8AA7AF1F1091A5FD) \
  && apt-get update \
- && apt-get install -y -q \
+ && apt-get install -y -q --allow-downgrades \
     git \
     python3 \
     python3-cbor \
@@ -114,27 +105,22 @@ COPY . /project
 RUN dpkg -i /tmp/python3-sawtooth-*.deb || true \
  && apt-get -f -y install \
  && /project/bin/protogen \
- && cd /project/sdk/examples/xo_python/ \
- && rm setup.py \
- && mv setup_tests.py setup.py \
+ && cd /project/examples/xo_python/ \
  && if [ -d "debian" ]; then rm -rf debian; fi \
  && python3 setup.py clean --all \
  && python3 setup.py --command-packages=stdeb.command debianize \
  && if [ -d "packaging/ubuntu" ]; then cp -R packaging/ubuntu/* debian/; fi \
  && dpkg-buildpackage -b -rfakeroot -us -uc
 
- # -------------=== python-xo-tp-tests docker build ===-------------
-FROM ubuntu:bionic
-
-RUN apt-get update \
- && apt-get install gnupg -y
+ # -------------=== python-xo-tp docker build ===-------------
+FROM ubuntu:xenial
 
 COPY --from=sawtooth-signing-builder /project/python3-sawtooth-signing*.deb /tmp
 COPY --from=sawtooth-sdk-python-builder /python3-sawtooth-sdk*.deb /tmp
 
-COPY --from=python-xo-tests-builder /project/sdk/examples/python3-sawtooth-xo*.deb /tmp
+COPY --from=python-xo-tp-builder /project/examples/python3-sawtooth-xo*.deb /tmp
 
-RUN echo "deb http://repo.sawtooth.me/ubuntu/ci bionic universe" >> /etc/apt/sources.list \
+RUN echo "deb http://repo.sawtooth.me/ubuntu/ci xenial universe" >> /etc/apt/sources.list \
  && (apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD \
  || apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 8AA7AF1F1091A5FD) \
  && apt-get update \

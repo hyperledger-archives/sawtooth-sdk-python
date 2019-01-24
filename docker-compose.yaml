@@ -30,7 +30,7 @@ services:
   intkey-tp-python:
     build:
       context: .
-      dockerfile: sdk/examples/intkey_python/Dockerfile
+      dockerfile: examples/intkey_python/Dockerfile
       args:
         - http_proxy
         - https_proxy
@@ -44,7 +44,7 @@ services:
     command: |
       bash -c "
         bin/protogen
-        cd sdk/examples/intkey_python
+        cd examples/intkey_python
         python3 setup.py clean --all
         python3 setup.py build
         intkey-tp-python -vv -C tcp://validator:4004
@@ -55,7 +55,7 @@ services:
   xo-tp-python:
     build:
       context: .
-      dockerfile: sdk/examples/xo_python/Dockerfile
+      dockerfile: examples/xo_python/Dockerfile
       args:
         - http_proxy
         - https_proxy
@@ -69,7 +69,7 @@ services:
     command: |
       bash -c "
         bin/protogen
-        cd sdk/examples/xo_python
+        cd examples/xo_python
         python3 setup.py clean --all
         python3 setup.py build
         xo-tp-python -vv -C tcp://validator:4004
