@@ -36,7 +36,9 @@ import shlex
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
-sys.path.insert(0, os.path.abspath('../../sdk/python/sawtooth_sdk'))
+sys.path.insert(0, os.path.abspath('../../'))
+sys.path.insert(0, os.path.abspath('../../sawtooth_sdk'))
+sys.path.insert(0, os.path.abspath('../../signing'))
 
 # -- General configuration ------------------------------------------------
 
@@ -109,7 +111,6 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 exclude_patterns = [
-    'community/how_to_report_issues.rst',
     'sdks/python_sdk/modules.rst',
 ]
 
