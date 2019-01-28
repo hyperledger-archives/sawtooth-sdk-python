@@ -18,14 +18,8 @@
 # without immediately crashing given the default arguments
 
 services="
-validator
-rest-api
 intkey-tp-python
 xo-tp-python
-settings-tp
-block-info-tp
-identity-tp
-devmode-engine-rust
 "
 
 if [ -z $ISOLATION_ID ]

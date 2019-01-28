@@ -19,8 +19,8 @@ services:
 
   unit-python-sdk:
     build:
-      context: ../../..
-      dockerfile: sdk/python/tests/python-sdk-tests.dockerfile
+      context: ../
+      dockerfile: tests/python-sdk-tests.dockerfile
       args:
         - http_proxy
         - https_proxy
@@ -29,8 +29,8 @@ services:
     volumes:
       - $SAWTOOTH_CORE:/project/sawtooth-core
     command: nose2-3
-        -c /project/sawtooth-core/sdk/python/nose2.cfg
+        -c /project/sawtooth-core/nose2.cfg
         -v
-        -s /project/sawtooth-core/sdk/python/tests
+        -s /project/sawtooth-core/tests
     environment:
-        PYTHONPATH: "/project/sawtooth-core/sdk/python"
+        PYTHONPATH: "/project/sawtooth-core"

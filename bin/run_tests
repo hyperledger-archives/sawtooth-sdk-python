@@ -135,9 +135,9 @@ test_signing() {
 test_python_sdk() {
     run_docker_test ./tests/unit_python_sdk.yaml
     copy_coverage .coverage.test_python_sdk
-    run_docker_test ./sdk/examples/intkey_python/tests/test_tp_intkey_python.yaml
+    run_docker_test ./examples/intkey_python/tests/test_tp_intkey_python.yaml
     copy_coverage .coverage.test_tp_intkey_python
-    run_docker_test ./sdk/examples/xo_python/tests/test_tp_xo_python.yaml
+    run_docker_test ./examples/xo_python/tests/test_tp_xo_python.yaml
     copy_coverage .coverage.test_tp_xo_python
     run_docker_test test_intkey_smoke_python
     copy_coverage .coverage.test_intkey_smoke_python

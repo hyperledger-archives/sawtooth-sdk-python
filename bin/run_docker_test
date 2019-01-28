@@ -449,7 +449,7 @@ def _setup_environ(isolation_id):
 def _get_compose_dir():
     return os.path.join(
         os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-        "integration", "sawtooth_integration", "docker"
+        "tests", "sawtooth_integration", "docker"
     )
 
 
