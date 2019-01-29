@@ -1,15 +1,15 @@
 
 ![Hyperledger Sawtooth](images/sawtooth_logo_light_blue-small.png)
 
-Hyperledger Sawtooth Core Developer's Setup Guide
+Hyperledger Sawtooth SDK Python Developer's Setup Guide
 =============
 
 If you are planning to contribute code to the Sawtooth project, please review
 the contributing guide: [CONTRIBUTING.md]
 
-Supported operating systems: Ubuntu 16.04 and macOS
+Supported operating systems: Ubuntu 18.04 and macOS
 
-If you want to use a Windows system, we recommend that you install Ubuntu 16.04
+If you want to use a Windows system, we recommend that you install Ubuntu 18.04
 in a virtual machine manager, such as Hyper-V or VirtualBox, and develop from
 the guest operating system.
 
@@ -151,7 +151,7 @@ Open a terminal and run the following commands:
    $ cd $HOME
    $ mkdir sawtooth
    $ cd sawtooth
-   $ git clone https://github.com/hyperledger/sawtooth-core.git
+   $ git clone https://github.com/hyperledger/sawtooth-sdk-python.git
 ```
 
 Step Four: Build Docker Images
@@ -189,11 +189,11 @@ dependencies on your machine.
 If you wish to configure your development machine to do compilation
 directly on the host without Docker virtualization, see the `Dockerfile` in
 any component directory. For example, the file
-`sawtooth-core/validator/Dockerfile` describes the configuration and components
-needed to build and run the validator on a system.
+`sawtooth-sdk-python/examples/intkey_python/Dockerfile` describes the configuration and components
+needed to build and run the intkey transaction processor on a system.
 
-Also provided is a docker-compose file which builds a full set of images
-with Sawtooth installed, and only the run-time dependencies installed.
+Also provided is a docker-compose file which builds images with
+Sawtooth components installed, and only the run-time dependencies.
 
   ```bash
     $ docker-compose -f docker-compose-installed.yaml build
@@ -222,7 +222,7 @@ This command starts a validator with the following components attached to it:
 From another console window, you can access the shell with this command:
 
 ```bash
-  $ docker-compose exec client bash
+  $ docker-compose exec shell bash
 ```
 
 This command uses Docker Compose and the development Docker images. These
@@ -239,13 +239,8 @@ You must have Docker images that were built with the
 `docker-compose -f docker/compose/sawtooth-build.yaml up` command
 as described above.
 
-To run the automated tests for Python components, while excluding
-Rust components:
+To run the automated tests for Python components:
 
 ```bash
-  $ bin/run_tests -x rust_sdk
+  $ bin/run_tests
 ```
-
-**Note:** The `run_tests` command provides the ``-x`` flag to allow you to exclude
-various components from the tests. You can also specify which tests to run
-with the ``-m`` flag. Run the command `run_tests -h` for help.
