@@ -74,13 +74,10 @@ node ('master') {
 
             stage("Run Lint") {
                 sh 'docker-compose -f docker/compose/run-lint.yaml up --abort-on-container-exit --exit-code-from lint-python lint-python'
-                sh 'docker-compose -f docker/compose/run-lint.yaml up --abort-on-container-exit --exit-code-from lint-rust lint-rust'
-                sh 'docker-compose -f docker/compose/run-lint.yaml up --abort-on-container-exit --exit-code-from lint-validator lint-validator'
             }
 
             stage("Build Test Dependencies") {
                 sh 'docker-compose -f docker-compose-installed.yaml build'
-                sh 'docker-compose -f docker/compose/external.yaml build'
                 sh 'docker build -f docker/bandit -t bandit:$ISOLATION_ID .'
             }
 
@@ -117,7 +114,7 @@ node ('master') {
                 archiveArtifacts artifacts: 'build/debs/*.deb'
                 archiveArtifacts artifacts: 'build/bandit.html'
                 archiveArtifacts artifacts: 'coverage/html/*'
-                archiveArtifacts artifacts: 'docs/build/html/**, docs/build/latex/*.pdf'
+                archiveArtifacts artifacts: 'docs/build/html/**'
                 sh 'docker-compose -f docker/compose/copy-debs.yaml down'
             }
         }
