@@ -438,12 +438,12 @@ def _get_isolation_id():
 
 def _setup_environ(isolation_id):
     os.environ['ISOLATION_ID'] = isolation_id
-    os.environ['SAWTOOTH_CORE'] = os.path.dirname(
+    os.environ['SAWTOOTH_SDK_PYTHON'] = os.path.dirname(
         os.path.dirname(
             os.path.realpath(__file__)
         )
     )
-    print(os.environ['SAWTOOTH_CORE'])
+    print(os.environ['SAWTOOTH_SDK_PYTHON'])
 
 
 def _get_compose_dir():

@@ -27,7 +27,7 @@ services:
         - no_proxy
     image: sawtooth-xo-tp-python$INSTALL_TYPE:$ISOLATION_ID
     volumes:
-      - $SAWTOOTH_CORE:/project/sawtooth-core
+      - $SAWTOOTH_SDK_PYTHON:/project/sawtooth-sdk-python
     expose:
       - 4004
     command: xo-tp-python -vv -C tcp://test-tp-xo-python:4004
@@ -43,17 +43,17 @@ services:
         - no_proxy
     image: python-sdk-tests:$ISOLATION_ID
     volumes:
-      - $SAWTOOTH_CORE:/project/sawtooth-core
+      - $SAWTOOTH_SDK_PYTHON:/project/sawtooth-sdk-python
     expose:
       - 4004
     command: nose2-3
-        -c /project/sawtooth-core/examples/xo_python/nose2.cfg
+        -c /project/sawtooth-sdk-python/examples/xo_python/nose2.cfg
         -v
-        -s /project/sawtooth-core/examples/xo_python/tests
+        -s /project/sawtooth-sdk-python/examples/xo_python/tests
         test_tp_xo
     stop_signal: SIGKILL
     environment:
       TEST_BIND: "tcp://eth0:4004"
       PYTHONPATH: "\
-        /project/sawtooth-core/:\
-        /project/sawtooth-core/examples/xo_python"
+        /project/sawtooth-sdk-python/:\
+        /project/sawtooth-sdk-python/examples/xo_python"

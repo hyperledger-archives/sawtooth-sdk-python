@@ -29,4 +29,4 @@ RUN apt-get install -y -q \
     bandit \
     coverage --upgrade
 
-ENV PATH=$PATH:/project/sawtooth-core/bin
+ENV PATH=$PATH:/project/sawtooth-sdk-python/bin

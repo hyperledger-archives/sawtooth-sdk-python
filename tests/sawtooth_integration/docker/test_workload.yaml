@@ -36,7 +36,7 @@ services:
         - no_proxy
     image: sawtooth-intkey-tp-python$INSTALL_TYPE:$ISOLATION_ID
     volumes:
-      - $SAWTOOTH_CORE:/project/sawtooth-core
+      - $SAWTOOTH_SDK_PYTHON:/project/sawtooth-sdk-python
     expose:
       - 4004
     depends_on:
@@ -94,19 +94,19 @@ services:
         - no_proxy
     image: integration-tests:$ISOLATION_ID
     volumes:
-      - $SAWTOOTH_CORE:/project/sawtooth-core
+      - $SAWTOOTH_SDK_PYTHON:/project/sawtooth-sdk-python
     expose:
       - 8008
     depends_on:
       - validator
       - rest-api
     command: nose2-3
-        -c /project/sawtooth-core/tests/sawtooth_integration/nose2.cfg
+        -c /project/sawtooth-sdk-python/tests/sawtooth_integration/nose2.cfg
         -v
-        -s /project/sawtooth-core/tests/sawtooth_integration/tests
+        -s /project/sawtooth-sdk-python/tests/sawtooth_integration/tests
         test_workload
     stop_signal: SIGKILL
     environment:
-      PYTHONPATH: "/project/sawtooth-core:\
-        /project/sawtooth-core/examples/intkey_python:\
-        /project/sawtooth-core/tests"
+      PYTHONPATH: "/project/sawtooth-sdk-python:\
+        /project/sawtooth-sdk-python/examples/intkey_python:\
+        /project/sawtooth-sdk-python/tests"

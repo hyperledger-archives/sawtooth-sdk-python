@@ -38,7 +38,7 @@ setup(
         ['../../bin/get_version']).decode('utf-8').strip(),
     description='Sawtooth Intkey Python Example',
     author='Hyperledger Sawtooth',
-    url='https://github.com/hyperledger/sawtooth-core',
+    url='https://github.com/hyperledger/sawtooth-sdk-python',
     packages=find_packages(),
     install_requires=[
         "cbor",

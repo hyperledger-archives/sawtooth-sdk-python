@@ -18,11 +18,11 @@
 #   the Sawtooth Package Repository.
 #
 # Build:
-#   $ cd sawtooth-core/docker
+#   $ cd sawtooth-sdk-python/docker
 #   $ docker build . -f sawtooth-xo-tp-python -t sawtooth-xo-tp-python
 #
 # Run:
-#   $ cd sawtooth-core
+#   $ cd sawtooth-sdk-python
 #   $ docker run sawtooth-xo-tp-python
 
 FROM ubuntu:bionic

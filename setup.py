@@ -43,7 +43,7 @@ setup(
         ['./bin/get_version']).decode('utf-8').strip(),
     description='Sawtooth Python SDK',
     author='Hyperledger Sawtooth',
-    url='https://github.com/hyperledger/sawtooth-core',
+    url='https://github.com/hyperledger/sawtooth-sdk-python',
     packages=find_packages(),
     data_files=data_files,
     install_requires=[

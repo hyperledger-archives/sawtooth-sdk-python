@@ -26,8 +26,8 @@ services:
         - no_proxy
     image: integration-tests:$ISOLATION_ID
     volumes:
-      - $SAWTOOTH_CORE:/project/sawtooth-core
+      - $SAWTOOTH_SDK_PYTHON:/project/sawtooth-sdk-python
       - /var/run/docker.sock:/var/run/docker.sock
-    command: /project/sawtooth-core/tests/sawtooth_integration/tests/test_systemd.sh
+    command: /project/sawtooth-sdk-python/tests/sawtooth_integration/tests/test_systemd.sh
     environment:
       ISOLATION_ID: ${ISOLATION_ID}

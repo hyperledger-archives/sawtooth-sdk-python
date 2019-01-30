@@ -26,7 +26,7 @@ services:
         - no_proxy
     image: sawtooth-signing-local:${ISOLATION_ID}
     volumes:
-      - ../../:/project/sawtooth-core
+      - ../../:/project/sawtooth-sdk-python
 
   python-sdk:
     build:
@@ -38,4 +38,4 @@ services:
         - no_proxy
     image: sawtooth-python-sdk-local:${ISOLATION_ID}
     volumes:
-      - ../../:/project/sawtooth-core
+      - ../../:/project/sawtooth-sdk-python

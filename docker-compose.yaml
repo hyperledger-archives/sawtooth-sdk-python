@@ -37,7 +37,7 @@ services:
         - no_proxy
     image: intkey-tp-python-local:${ISOLATION_ID}
     volumes:
-      - ./:/project/sawtooth-core
+      - ./:/project/sawtooth-sdk-python
     container_name: intkey-tp-python-local
     depends_on:
       - validator
@@ -62,7 +62,7 @@ services:
         - no_proxy
     image: xo-tp-python-local:${ISOLATION_ID}
     volumes:
-      - ./:/project/sawtooth-core
+      - ./:/project/sawtooth-sdk-python
     container_name: xo-tp-python-local
     depends_on:
       - validator

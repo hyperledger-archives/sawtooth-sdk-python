@@ -56,7 +56,7 @@ RUN apt-get install -y -q \
     openssl \
     python3-grpcio-tools
 
-ENV PATH=$PATH:/project/sawtooth-core/bin
+ENV PATH=$PATH:/project/sawtooth-sdk-python/bin
 
 RUN apt-get install -y -q \
     build-essential \
@@ -69,4 +69,4 @@ RUN apt-get install -y -q \
     python3-grpcio-tools \
     unzip
 
-WORKDIR /project/sawtooth-core
+WORKDIR /project/sawtooth-sdk-python

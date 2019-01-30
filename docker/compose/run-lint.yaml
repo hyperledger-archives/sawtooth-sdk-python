@@ -27,5 +27,5 @@ services:
         - no_proxy
     image: lint:${ISOLATION_ID}
     volumes:
-      - ../../:/project/sawtooth-core
+      - ../../:/project/sawtooth-sdk-python
     command: run_lint

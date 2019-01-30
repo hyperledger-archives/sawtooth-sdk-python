@@ -47,9 +47,9 @@ RUN apt-get install -y -q \
 RUN apt-get install -y -q \
     python3-sawtooth-signing
 
-ENV PATH=$PATH:/project/sawtooth-core/bin
+ENV PATH=$PATH:/project/sawtooth-sdk-python/bin
 
-WORKDIR /project/sawtooth-core
+WORKDIR /project/sawtooth-sdk-python
 
 CMD echo "\033[0;32m--- Building python sdk ---\n\033[0m" \
  && bin/protogen \

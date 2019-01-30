@@ -42,7 +42,7 @@ password=@PASS@\n\
 
 CMD sed -i'' -e "s/@USER@/$PYPI_USER/g" /root/.pypirc \
  && sed -i'' -e "s/@PASS@/$PYPI_PASS/g" /root/.pypirc \
- && cd /project/sawtooth-core/ \
+ && cd /project/sawtooth-sdk-python/ \
  && python3 setup.py sdist upload -r pypi \
- && cd /project/sawtooth-core/signing \
+ && cd /project/sawtooth-sdk-python/signing \
  && python3 setup.py sdist upload -r pypi

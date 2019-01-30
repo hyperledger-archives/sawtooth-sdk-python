@@ -18,11 +18,11 @@
 #   the nightly Sawtooth Package Repository.
 #
 # Build:
-#   $ cd sawtooth-core/ci/nightly
+#   $ cd sawtooth-sdk-python/ci/nightly
 #   $ docker build . -f sawtooth-xo-tp-python -t sawtooth-xo-tp-python
 #
 # Run:
-#   $ cd sawtooth-core
+#   $ cd sawtooth-sdk-python
 #   $ docker run sawtooth-xo-tp-python
 
 FROM ubuntu:bionic

@@ -18,11 +18,11 @@
 #   the Sawtooth Package Repository.
 #
 # Build:
-#   $ cd sawtooth-core/docker
+#   $ cd sawtooth-sdk-python/docker
 #   $ docker build . -f sawtooth-intkey-tp-python -t sawtooth-intkey-tp-python
 #
 # Run:
-#   $ cd sawtooth-core
+#   $ cd sawtooth-sdk-python
 #   $ docker run sawtooth-intkey-tp-python
 
 FROM ubuntu:bionic

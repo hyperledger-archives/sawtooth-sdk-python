@@ -16,15 +16,15 @@
 # Description:
 #   Builds the environment needed to build the Sawtooth docs
 #   Running the image will put the Sawtooth docs in
-#   sawtooth-core/docs/build on your local machine.
+#   sawtooth-sdk-python/docs/build on your local machine.
 #
 # Build:
-#   $ cd sawtooth-core
+#   $ cd sawtooth-sdk-python
 #   $ docker build . -f ci/sawtooth-build-docs -t sawtooth-build-docs
 #
 # Run:
-#   $ cd sawtooth-core
-#   $ docker run -v $(pwd):/project/sawtooth-core sawtooth-build-docs
+#   $ cd sawtooth-sdk-python
+#   $ docker run -v $(pwd):/project/sawtooth-sdk-python sawtooth-build-docs
 
 FROM ubuntu:bionic
 
@@ -102,5 +102,5 @@ RUN apt-get update && apt-get install -y -q \
     sphinxcontrib-openapi \
     sphinx_rtd_theme
 
-WORKDIR /project/sawtooth-core/docs
+WORKDIR /project/sawtooth-sdk-python/docs
 CMD make python
