@@ -16,15 +16,6 @@ version: '3.6'
 
 services:
 
-  settings-tp:
-    image: sawtooth-settings-tp:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
   intkey-tp-python:
     image: sawtooth-intkey-tp-python:${ISOLATION_ID}
     volumes:
@@ -36,69 +27,6 @@ services:
 
   xo-tp-python:
     image: sawtooth-xo-tp-python:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  validator:
-    image: sawtooth-validator:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  rest-api:
-    image: sawtooth-rest-api:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  shell:
-    image: sawtooth-shell:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  admin-tools:
-    image: sawtooth-admin-tools:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  sawtooth-cli:
-    image: sawtooth-cli:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  block-info-tp:
-    image: sawtooth-block-info-tp:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  identity-tp:
-    image: sawtooth-identity-tp:${ISOLATION_ID}
     volumes:
       - ../../build/debs:/build/debs
     command: |
@@ -135,51 +63,6 @@ services:
 
   xo-tests:
     image: sawtooth-xo-tests:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  integration:
-    image: sawtooth-integration:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  smallbank-workload:
-    image: sawtooth-smallbank-workload:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  intkey-workload:
-    image: sawtooth-intkey-workload:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  devmode-rust:
-    image: sawtooth-devmode-engine-rust:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
-  sawtooth-meta:
-    image: sawtooth-meta:${ISOLATION_ID}
     volumes:
       - ../../build/debs:/build/debs
     command: |
