@@ -98,7 +98,7 @@ RUN echo "deb http://repo.sawtooth.me/ubuntu/ci xenial universe" >> /etc/apt/sou
     python3-stdeb
 
 COPY --from=sawtooth-signing-builder /project/python3-sawtooth-signing*.deb /tmp
-COPY --from=sawtooth-sdk-python-builder /project/sdk/python3-sawtooth-sdk*.deb /tmp
+COPY --from=sawtooth-sdk-python-builder /python3-sawtooth-sdk*.deb /tmp
 
 COPY . /project
 
@@ -116,7 +116,7 @@ RUN dpkg -i /tmp/python3-sawtooth-*.deb || true \
 FROM ubuntu:xenial
 
 COPY --from=sawtooth-signing-builder /project/python3-sawtooth-signing*.deb /tmp
-COPY --from=sawtooth-sdk-python-builder /project/sdk/python3-sawtooth-sdk*.deb /tmp
+COPY --from=sawtooth-sdk-python-builder /python3-sawtooth-sdk*.deb /tmp
 
 COPY --from=python-xo-tp-builder /project/sdk/examples/python3-sawtooth-xo*.deb /tmp
 

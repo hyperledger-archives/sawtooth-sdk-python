@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# docker build -f sdk/python/Dockerfile-installed -t sawtooth-sdk-python-local .
+# docker build -f Dockerfile -t sawtooth-sdk-python-local .
 
 # -------------=== python sdk build ===-------------
 
@@ -50,6 +50,5 @@ WORKDIR /project/sawtooth-core
 
 CMD echo "\033[0;32m--- Building python sdk ---\n\033[0m" \
  && bin/protogen \
- && cd sdk/python \
  && python3 setup.py clean --all \
  && python3 setup.py build

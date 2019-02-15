@@ -145,6 +145,6 @@ services:
     stop_signal: SIGKILL
     environment:
       TP_LANG: "python"
-      PYTHONPATH: "/project/sawtooth-core/sdk/python:\
+      PYTHONPATH: "/project/sawtooth-core:\
         /project/sawtooth-core/integration:\
         /project/sawtooth-core/signing"

@@ -107,7 +107,7 @@ RUN echo "deb http://repo.sawtooth.me/ubuntu/ci bionic universe" >> /etc/apt/sou
     python3-stdeb
 
 COPY --from=sawtooth-signing-builder /project/python3-sawtooth-signing*.deb /tmp
-COPY --from=sawtooth-sdk-python-builder /project/sdk/python3-sawtooth-sdk*.deb /tmp
+COPY --from=sawtooth-sdk-python-builder /python3-sawtooth-sdk*.deb /tmp
 
 COPY . /project
 
@@ -130,7 +130,7 @@ RUN apt-get update \
  && apt-get install gnupg -y
 
 COPY --from=sawtooth-signing-builder /project/python3-sawtooth-signing*.deb /tmp
-COPY --from=sawtooth-sdk-python-builder /project/sdk/python3-sawtooth-sdk*.deb /tmp
+COPY --from=sawtooth-sdk-python-builder /python3-sawtooth-sdk*.deb /tmp
 
 COPY --from=python-xo-tests-builder /project/sdk/examples/python3-sawtooth-xo*.deb /tmp
 

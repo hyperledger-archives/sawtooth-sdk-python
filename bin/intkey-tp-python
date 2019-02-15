@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.join(
     'sdk', 'examples', 'intkey_python'))
 sys.path.insert(0, os.path.join(
     os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-    'sdk', 'python'))
+    ))
 sys.path.insert(0, os.path.join(
     os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
     'signing'))

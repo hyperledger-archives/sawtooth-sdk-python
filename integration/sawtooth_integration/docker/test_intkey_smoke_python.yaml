@@ -144,7 +144,7 @@ services:
         test_intkey_smoke.TestIntkeySmoke
     stop_signal: SIGKILL
     environment:
-      PYTHONPATH: "/project/sawtooth-core/sdk/python:\
+      PYTHONPATH: "/project/sawtooth-core:\
         /project/sawtooth-core/sdk/examples/intkey_python:\
         /project/sawtooth-core/integration:\
         /project/sawtooth-core/signing"

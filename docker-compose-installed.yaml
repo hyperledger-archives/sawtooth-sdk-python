@@ -47,7 +47,7 @@ services:
   python-sdk:
     build:
       context: .
-      dockerfile: sdk/python/Dockerfile-installed-${DISTRO}
+      dockerfile: Dockerfile-installed-${DISTRO}
       args:
         - http_proxy
         - https_proxy
