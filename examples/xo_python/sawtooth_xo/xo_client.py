@@ -171,7 +171,7 @@ class XoClient:
             if result.status_code == 404:
                 raise XoException("No such game: {}".format(name))
 
-            elif not result.ok:
+            if not result.ok:
                 raise XoException("Error {}: {}".format(
                     result.status_code, result.reason))
 
