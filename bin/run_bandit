@@ -22,6 +22,7 @@ directories="
     sawtooth_processor_test
     signing/build
     signing/tests
+    tests
 "
 
 if [ ! -d "$top_dir/build" ]; then

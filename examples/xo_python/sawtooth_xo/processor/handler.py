@@ -153,26 +153,25 @@ def _update_game_state(game_state, board):
     if x_wins and o_wins:
         raise InternalError('Two winners (there can be only one)')
 
-    elif x_wins:
+    if x_wins:
         return 'P1-WIN'
 
-    elif o_wins:
+    if o_wins:
         return 'P2-WIN'
 
-    elif '-' not in board:
+    if '-' not in board:
         return 'TIE'
 
-    elif game_state == 'P1-NEXT':
+    if game_state == 'P1-NEXT':
         return 'P2-NEXT'
 
-    elif game_state == 'P2-NEXT':
+    if game_state == 'P2-NEXT':
         return 'P1-NEXT'
 
-    elif game_state in ('P1-WINS', 'P2-WINS', 'TIE'):
+    if game_state in ('P1-WINS', 'P2-WINS', 'TIE'):
         return game_state
 
-    else:
-        raise InternalError('Unhandled state: {}'.format(game_state))
+    raise InternalError('Unhandled state: {}'.format(game_state))
 
 
 def _is_win(board, letter):

@@ -135,7 +135,7 @@ class IntkeyClient:
             if result.status_code == 404:
                 raise IntkeyClientException("No such key: {}".format(name))
 
-            elif not result.ok:
+            if not result.ok:
                 raise IntkeyClientException("Error {}: {}".format(
                     result.status_code, result.reason))
 
