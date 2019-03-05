@@ -48,9 +48,9 @@ setup(
     data_files=data_files,
     install_requires=[
         "colorlog",
-        "sawtooth-signing",
         "protobuf",
         "pyzmq",
+        "secp256k1",
         "toml",
         "PyYAML",
     ])

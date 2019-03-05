@@ -39,7 +39,6 @@ RUN apt-get install -y -q \
     python3-pyformance \
     python3-requests \
     python3-sawtooth-cli \
-    python3-sawtooth-signing \
     python3-secp256k1 \
     python3-toml \
     python3-yaml \

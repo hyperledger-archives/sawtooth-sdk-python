@@ -16,18 +16,6 @@ version: '3.6'
 
 services:
 
-  signing:
-    build:
-      context: ../../
-      dockerfile: ./signing/Dockerfile
-      args:
-        - http_proxy
-        - https_proxy
-        - no_proxy
-    image: sawtooth-signing-local:${ISOLATION_ID}
-    volumes:
-      - ../../:/project/sawtooth-sdk-python
-
   python-sdk:
     build:
       context: ../../

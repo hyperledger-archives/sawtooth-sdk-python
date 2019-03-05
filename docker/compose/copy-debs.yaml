@@ -43,15 +43,6 @@ services:
         cp /tmp/*.deb /build/debs
       "
 
-  signing:
-    image: sawtooth-signing:${ISOLATION_ID}
-    volumes:
-      - ../../build/debs:/build/debs
-    command: |
-      bash -c "
-        cp /tmp/*.deb /build/debs
-      "
-
   intkey-tests:
     image: sawtooth-intkey-tests:${ISOLATION_ID}
     volumes:
