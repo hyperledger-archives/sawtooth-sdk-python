@@ -39,7 +39,6 @@ setup(
         'colorlog',
         'protobuf',
         'sawtooth-sdk',
-        'sawtooth-signing',
         'PyYAML',
     ],
     data_files=data_files,
