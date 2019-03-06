@@ -30,10 +30,6 @@
 /docs/source/cli/output/
 /docs/source/sdks/
 
-/sdk/python/build/
-/sdk/python/sawtooth_sdk/protobuf/
-/sdk/python/**/__pycache__/
-
 /examples/xo_python/build/
 /examples/xo_python/**/__pycache__/
 /examples/intkey_python/build/
@@ -51,8 +47,7 @@
 /tests/__pycache__/
 /tests/sawtooth_integration/tests/__pycache__/
 
-/signing/build/
-/signing/sawtooth_signing.egg-info/
-/signing/**/__pycache__/
+/sawtooth_signing.egg-info/
+/sawtooth_signing/**/__pycache__/
 
 *.batch
