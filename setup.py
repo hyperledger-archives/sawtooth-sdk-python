@@ -21,14 +21,9 @@ import subprocess
 from setuptools import setup, find_packages
 
 
-if os.name == 'nt':
-    conf_dir = "C:\\Program Files (x86)\\Intel\\sawtooth\\conf"
-    data_dir = "C:\\Program Files (x86)\\Intel\\sawtooth\\data"
-    log_dir = "C:\\Program Files (x86)\\Intel\\sawtooth\\logs"
-else:
-    conf_dir = "/etc/sawtooth"
-    data_dir = "/var/lib/sawtooth"
-    log_dir = "/var/log/sawtooth"
+conf_dir = "/etc/sawtooth"
+data_dir = "/var/lib/sawtooth"
+log_dir = "/var/log/sawtooth"
 
 data_files = [
     (conf_dir, []),
