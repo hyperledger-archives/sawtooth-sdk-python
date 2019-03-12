@@ -40,12 +40,10 @@ RUN apt-get install -y -q \
 
 RUN apt-get install -y -q \
     python3-colorlog \
+    python3-secp256k1 \
     python3-toml \
     python3-yaml \
     python3-zmq
-
-RUN apt-get install -y -q \
-    python3-sawtooth-signing
 
 ENV PATH=$PATH:/project/sawtooth-sdk-python/bin
 

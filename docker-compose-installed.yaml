@@ -55,17 +55,6 @@ services:
     image: sawtooth-sdk-python:${ISOLATION_ID}
     container_name: sawtooth-sdk-python-default
 
-  signing:
-    build:
-      context: .
-      dockerfile: signing/Dockerfile-installed-${DISTRO}
-      args:
-        - http_proxy
-        - https_proxy
-        - no_proxy
-    image: sawtooth-signing:${ISOLATION_ID}
-    container_name: sawtooth-signing-default
-
   intkey-tests:
     build:
       context: .

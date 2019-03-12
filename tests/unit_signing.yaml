@@ -13,21 +13,24 @@
 # limitations under the License.
 # ------------------------------------------------------------------------------
 
-import subprocess
+version: "2.1"
 
-from setuptools import setup, find_packages
+services:
 
-
-setup(
-    name='sawtooth-signing',
-    version=subprocess.check_output(
-        ['../bin/get_version']).decode('utf-8').strip(),
-    description='Sawtooth Signing Library',
-    author='Hyperledger Sawtooth',
-    url='https://github.com/hyperledger/sawtooth-sdk-python',
-    packages=find_packages(),
-    install_requires=[
-        "secp256k1",
-    ],
-    data_files=[],
-    entry_points={})
+  unit-signing:
+    build:
+      context: ../
+      dockerfile: tests/signing-tests.dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    image: signing-tests:$ISOLATION_ID
+    volumes:
+      - $SAWTOOTH_SDK_PYTHON:/project/sawtooth-sdk-python
+    command: nose2-3
+        -c /project/sawtooth-sdk-python/nose2.cfg
+        -v
+        -s /project/sawtooth-sdk-python/sawtooth_signing
+    environment:
+        PYTHONPATH: "/project/sawtooth-sdk-python/sawtooth_signing"

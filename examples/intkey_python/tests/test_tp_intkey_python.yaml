@@ -56,5 +56,4 @@ services:
       TEST_BIND: "tcp://eth0:4004"
       PYTHONPATH: "/project/sawtooth-sdk-python/:\
         /project/sawtooth-sdk-python/examples/intkey_python:\
-        /project/sawtooth-sdk-python/tests:\
-        /project/sawtooth-sdk-python/signing"
+        /project/sawtooth-sdk-python/tests"

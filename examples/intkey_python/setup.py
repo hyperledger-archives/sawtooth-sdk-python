@@ -44,7 +44,6 @@ setup(
         "cbor",
         "colorlog",
         "sawtooth-sdk",
-        "sawtooth-signing",
     ],
     data_files=data_files,
     entry_points={

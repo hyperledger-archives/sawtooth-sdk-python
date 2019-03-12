@@ -128,7 +128,7 @@ main() {
 }
 
 test_signing() {
-    run_docker_test ./signing/tests/unit_signing.yaml
+    run_docker_test ./tests/unit_signing.yaml
     copy_coverage .coverage.signing
 }
 

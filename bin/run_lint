@@ -159,16 +159,15 @@ retval=0
 # errors. It would be nice if there was a more convenient way of
 # organizing these.
 
-# signing
-PYTHONPATH=$top_dir/signing
+# sawtooth_signing
+PYTHONPATH=$top_dir
 export PYTHONPATH
-lint signing "$SINCE" || retval=1
+lint sawtooth_signing "$SINCE" || retval=1
 
 # sdk, xo, intkey
 PYTHONPATH=$top_dir/
 PYTHONPATH=$PYTHONPATH:$top_dir/examples/intkey_python
 PYTHONPATH=$PYTHONPATH:$top_dir/examples/xo_python
-PYTHONPATH=$PYTHONPATH:$top_dir/signing
 export PYTHONPATH
 lint sawtooth_processor_test "$SINCE" || retval=1
 lint sawtooth_sdk "$SINCE" || retval=1

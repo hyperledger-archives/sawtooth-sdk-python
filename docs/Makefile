@@ -67,7 +67,7 @@ PYTHONAPIDOC := $(SPHINXAPIDOC) -f -o $(PYTHONSDKDIR)
 python:
 	mkdir -p $(PYTHONSDKDIR)
 	$(PYTHONAPIDOC) ../sawtooth_sdk/processor
-	$(PYTHONAPIDOC) ../signing/sawtooth_signing
+	$(PYTHONAPIDOC) ../sawtooth_signing
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(HTMLDIR)
 
 RUSTSDKDIR := $(HTMLDIR)/rust_sdk

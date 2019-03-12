@@ -42,9 +42,6 @@ RUN apt-get install -y -q \
     python3-zmq
 
 RUN apt-get install -y -q \
-    python3-sawtooth-signing
-
-RUN apt-get install -y -q \
     python3-cov-core \
     python3-nose2 \
     python3-pip
