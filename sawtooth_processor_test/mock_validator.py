@@ -139,7 +139,8 @@ class MockValidator:
             str(request.namespaces)
         )
         response = TpRegisterResponse(
-            status=TpRegisterResponse.OK)
+            status=TpRegisterResponse.OK,
+            protocol_version=request.protocol_version)
         self.send(response, message.correlation_id)
         return True
 
