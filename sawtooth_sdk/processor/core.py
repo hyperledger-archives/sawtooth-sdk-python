@@ -37,6 +37,7 @@ from sawtooth_sdk.protobuf.processor_pb2 import TpUnregisterRequest
 from sawtooth_sdk.protobuf.processor_pb2 import TpUnregisterResponse
 from sawtooth_sdk.protobuf.processor_pb2 import TpProcessRequest
 from sawtooth_sdk.protobuf.processor_pb2 import TpProcessResponse
+from sawtooth_sdk.protobuf.transaction_pb2 import TransactionHeader
 from sawtooth_sdk.protobuf.network_pb2 import PingResponse
 from sawtooth_sdk.protobuf.validator_pb2 import Message
 
@@ -57,7 +58,8 @@ class TransactionProcessor:
     # Note: SDK_PROTOCOL_VERSION is the highest version the SDK supports
     class _FeatureVersion(Enum):
         FEATURE_UNUSED = 0
-        SDK_PROTOCOL_VERSION = 0
+        FEATURE_CUSTOM_HEADER_STYLE = 1
+        SDK_PROTOCOL_VERSION = 1
 
     def __init__(self, url):
         """
@@ -69,6 +71,7 @@ class TransactionProcessor:
         self._handlers = []
         self._highest_sdk_feature_requested = \
             self._FeatureVersion.FEATURE_UNUSED
+        self._header_style = TpRegisterRequest.HEADER_STYLE_UNSET
 
     @property
     def zmq_id(self):
@@ -80,6 +83,18 @@ class TransactionProcessor:
             handler (TransactionHandler): the handler to be added
         """
         self._handlers.append(handler)
+
+    def set_header_style(self, style):
+        """Sets a flag to request the validator for custom transaction header
+        style in TpProcessRequest.
+        Args:
+            style (TpProcessRequestHeaderStyle): enum value to set header style
+        """
+        if self._FeatureVersion.FEATURE_CUSTOM_HEADER_STYLE.value > \
+                self._highest_sdk_feature_requested.value:
+            self._highest_sdk_feature_requested = \
+                self._FeatureVersion.FEATURE_CUSTOM_HEADER_STYLE
+        self._header_style = style
 
     def _matches(self, handler, header):
         return header.family_name == handler.family_name \
@@ -109,7 +124,8 @@ class TransactionProcessor:
                     family=n,
                     version=v,
                     namespaces=h.namespaces,
-                    protocol_version=self._highest_sdk_feature_requested.value)
+                    protocol_version=self._highest_sdk_feature_requested.value,
+                    request_header_style=self._header_style)
                  for n, v in itertools.product(
                     [h.family_name],
                      h.family_versions,)] for h in self._handlers])
@@ -134,7 +150,11 @@ class TransactionProcessor:
         request = TpProcessRequest()
         request.ParseFromString(msg.content)
         state = Context(self._stream, request.context_id)
-        header = request.header
+        if self._header_style == TpRegisterRequest.RAW:
+            header = TransactionHeader()
+            header.ParseFromString(request.header_bytes)
+        else:
+            header = request.header
         try:
             if not self._stream.is_ready():
                 raise ValidatorConnectionError()
