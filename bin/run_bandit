@@ -18,9 +18,9 @@
 top_dir=$(cd $(dirname $(dirname $0)) && pwd)
 
 directories="
-    build
-    sawtooth_processor_test
-    tests
+    build/*
+    sawtooth_processor_test/*
+    tests/*
 "
 
 if [ ! -d "$top_dir/build" ]; then
