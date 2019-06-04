@@ -54,6 +54,9 @@ class MockEngine(Engine):
     def version(self):
         return 'test-version'
 
+    def additional_protocols(self):
+        return [('Test-Name', 'Test-Version')]
+
 
 class TestDriver(unittest.TestCase):
     def setUp(self):
@@ -131,8 +134,12 @@ class TestDriver(unittest.TestCase):
             response,
             Message.CONSENSUS_REGISTER_RESPONSE)
 
+        additional_protocols = \
+            [(p.name, p.version) for p in request.additional_protocols]
+
         self.assertEqual(request.name, 'test-name')
         self.assertEqual(request.version, 'test-version')
+        self.assertEqual(additional_protocols, [('Test-Name', 'Test-Version')])
 
         self.send_req_rep(
             consensus_pb2.ConsensusNotifyEngineActivated(),
