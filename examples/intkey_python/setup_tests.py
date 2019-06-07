@@ -25,6 +25,8 @@ data_files = []
 
 if os.path.exists("tests"):
     data_files.append(('/data/tests/intkey', ['tests/test_tp_intkey.py']))
+    data_files.append(('/data/tests/intkey', [
+        '../../tests/sawtooth_integration/tests/test_intkey_smoke.py']))
 
 setup(
     name='sawtooth-intkey-tests',
