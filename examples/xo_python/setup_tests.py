@@ -25,6 +25,8 @@ data_files = []
 
 if os.path.exists("tests"):
     data_files.append(('/data/tests/xo', ['tests/test_tp_xo.py']))
+    data_files.append(('/data/tests/xo', [
+        '../../tests/sawtooth_integration/tests/test_xo_smoke.py']))
 
 setup(
     name='sawtooth-xo-tests',
