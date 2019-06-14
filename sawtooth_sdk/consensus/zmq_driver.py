@@ -102,12 +102,17 @@ class ZmqDriver(Driver):
         request = consensus_pb2.ConsensusRegisterRequest(
             name=self._engine.name(),
             version=self._engine.version(),
-        ).SerializeToString()
+        )
+
+        for (name, version) in self._engine.additional_protocols():
+            protocol = request.additional_protocols.add()
+            protocol.name = name
+            protocol.version = version
 
         while True:
             future = self._stream.send(
                 message_type=Message.CONSENSUS_REGISTER_REQUEST,
-                content=request)
+                content=request.SerializeToString())
             response = consensus_pb2.ConsensusRegisterResponse()
             response.ParseFromString(future.result(REGISTER_TIMEOUT).content)
 

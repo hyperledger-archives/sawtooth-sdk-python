@@ -62,3 +62,11 @@ class Engine(metaclass=abc.ABCMeta):
         Return:
             str
         '''
+
+    def additional_protocols(self):
+        '''Any additional protocol name/version pairs this engine supports.
+
+        Return:
+            List of (string, string) tuples
+        '''
+        return []
