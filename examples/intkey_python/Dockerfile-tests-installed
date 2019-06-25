@@ -80,6 +80,7 @@ RUN dpkg -i /tmp/python3-sawtooth-*.deb || true \
  && apt-get -f -y install \
  && /project/bin/protogen \
  && cd /project/examples/intkey_python/ \
+ && export ST_VERSION=$(../../bin/get_version) \
  && rm setup.py \
  && mv setup_tests.py setup.py \
  && if [ -d "debian" ]; then rm -rf debian; fi \
