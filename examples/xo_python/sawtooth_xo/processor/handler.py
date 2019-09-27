@@ -30,7 +30,9 @@ LOGGER = logging.getLogger(__name__)
 
 
 class XoTransactionHandler(TransactionHandler):
-
+    # Disable invalid-overridden-method. The sawtooth-sdk expects these to be
+    # properties.
+    # pylint: disable=invalid-overridden-method
     @property
     def family_name(self):
         return 'xo'
