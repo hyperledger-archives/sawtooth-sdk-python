@@ -45,6 +45,9 @@ def make_intkey_address(name):
 
 
 class IntkeyTransactionHandler(TransactionHandler):
+    # Disable invalid-overridden-method. The sawtooth-sdk expects these to be
+    # properties.
+    # pylint: disable=invalid-overridden-method
     @property
     def family_name(self):
         return FAMILY_NAME
@@ -170,7 +173,7 @@ def _do_set(name, value, state):
                 n=name,
                 v=state[name]))
 
-    updated = {k: v for k, v in state.items()}
+    updated = dict(state.items())
     updated[name] = value
 
     return updated
@@ -192,7 +195,7 @@ def _do_inc(name, value, state):
             'Verb is "inc", but result would be greater than {}'.format(
                 MAX_VALUE))
 
-    updated = {k: v for k, v in state.items()}
+    updated = dict(state.items())
     updated[name] = incd
 
     return updated
@@ -214,7 +217,7 @@ def _do_dec(name, value, state):
             'Verb is "dec", but result would be less than {}'.format(
                 MIN_VALUE))
 
-    updated = {k: v for k, v in state.items()}
+    updated = dict(state.items())
     updated[name] = decd
 
     return updated
