@@ -79,9 +79,13 @@ class TestInkeyCli(unittest.TestCase):
         )
 
         for command in display:
-            _send_command(
-                'intkey {} --url {}'.format(
-                    command, URL))
+            # show not-set is expected to error
+            try:
+                _send_command(
+                    'intkey {} --url {}'.format(
+                        command, URL))
+            except subprocess.CalledProcessError:
+                continue
 
         self.assertEqual(
             self.client.get_keys(),
