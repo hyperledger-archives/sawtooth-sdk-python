@@ -129,10 +129,10 @@ def get_log_dir():
 
 
 def get_log_config(filename=None):
-    """Returns the log config dictinary if it exists."""
+    """Returns the log config dictionary if it exists."""
     return _get_log_config(filename)
 
 
 def get_processor_config(filename=None):
-    """Returns the log config dictinary if it exists."""
+    """Returns the log config dictionary if it exists."""
     return _get_processor_config(filename)
