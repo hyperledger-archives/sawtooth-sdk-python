@@ -25,6 +25,7 @@ import zmq
 from sawtooth_sdk.consensus.engine import Engine
 from sawtooth_sdk.consensus.zmq_driver import ZmqDriver
 from sawtooth_sdk.protobuf import consensus_pb2
+from sawtooth_sdk.protobuf import network_pb2
 from sawtooth_sdk.protobuf.validator_pb2 import Message
 
 
@@ -172,6 +173,10 @@ class TestDriver(unittest.TestCase):
         self.send_req_rep(
             consensus_pb2.ConsensusNotifyBlockCommit(),
             Message.CONSENSUS_NOTIFY_BLOCK_COMMIT)
+
+        self.send_req_rep(
+            network_pb2.PingRequest(),
+            Message.PING_REQUEST)
 
         self.assertEqual(
             [msg_type for (msg_type, data) in self.engine.updates],
