@@ -33,6 +33,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class MockEngine(Engine):
+    # Ignore invalid override pylint issues
+    # pylint: disable=invalid-overridden-method
     def __init__(self):
         self.updates = []
         self.exit = False
