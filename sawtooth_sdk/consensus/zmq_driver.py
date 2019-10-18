@@ -84,10 +84,14 @@ class ZmqDriver(Driver):
                     future = self._stream.receive()
                 except concurrent.futures.TimeoutError:
                     continue
+                try:
+                    result = self._process(message)
 
-                result = self._process(message)
+                    self._updates.put(result)
 
-                self._updates.put(result)
+                except exceptions.ReceiveError as err:
+                    LOGGER.warning("%s", err)
+                    continue
         except Exception:  # pylint: disable=broad-except
             LOGGER.exception("Uncaught driver exception")
 
