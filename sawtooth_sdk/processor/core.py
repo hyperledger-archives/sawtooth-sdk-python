@@ -18,8 +18,10 @@ import concurrent.futures
 import itertools
 import logging
 
+from enum import Enum
 
 from sawtooth_sdk.messaging.exceptions import ValidatorConnectionError
+from sawtooth_sdk.messaging.exceptions import ValidatorVersionError
 from sawtooth_sdk.messaging.future import FutureTimeoutError
 from sawtooth_sdk.messaging.stream import RECONNECT_EVENT
 from sawtooth_sdk.messaging.stream import Stream
@@ -35,6 +37,7 @@ from sawtooth_sdk.protobuf.processor_pb2 import TpUnregisterRequest
 from sawtooth_sdk.protobuf.processor_pb2 import TpUnregisterResponse
 from sawtooth_sdk.protobuf.processor_pb2 import TpProcessRequest
 from sawtooth_sdk.protobuf.processor_pb2 import TpProcessResponse
+from sawtooth_sdk.protobuf.transaction_pb2 import TransactionHeader
 from sawtooth_sdk.protobuf.network_pb2 import PingResponse
 from sawtooth_sdk.protobuf.validator_pb2 import Message
 
@@ -48,6 +51,16 @@ class TransactionProcessor:
     handler. It uses ZMQ and channels to handle requests concurrently.
     """
 
+    # This is the version used by SDK to match if validator supports feature
+    # it requested during registration. It should only be incremented when
+    # there are changes in TpRegisterRequest. Remember to sync this
+    # information in validator if changed.
+    # Note: SDK_PROTOCOL_VERSION is the highest version the SDK supports
+    class _FeatureVersion(Enum):
+        FEATURE_UNUSED = 0
+        FEATURE_CUSTOM_HEADER_STYLE = 1
+        SDK_PROTOCOL_VERSION = 1
+
     def __init__(self, url):
         """
         Args:
@@ -56,6 +69,9 @@ class TransactionProcessor:
         self._stream = Stream(url)
         self._url = url
         self._handlers = []
+        self._highest_sdk_feature_requested = \
+            self._FeatureVersion.FEATURE_UNUSED
+        self._header_style = TpRegisterRequest.HEADER_STYLE_UNSET
 
     @property
     def zmq_id(self):
@@ -67,6 +83,18 @@ class TransactionProcessor:
             handler (TransactionHandler): the handler to be added
         """
         self._handlers.append(handler)
+
+    def set_header_style(self, style):
+        """Sets a flag to request the validator for custom transaction header
+        style in TpProcessRequest.
+        Args:
+            style (TpProcessRequestHeaderStyle): enum value to set header style
+        """
+        if self._FeatureVersion.FEATURE_CUSTOM_HEADER_STYLE.value > \
+                self._highest_sdk_feature_requested.value:
+            self._highest_sdk_feature_requested = \
+                self._FeatureVersion.FEATURE_CUSTOM_HEADER_STYLE
+        self._header_style = style
 
     def _matches(self, handler, header):
         return header.family_name == handler.family_name \
@@ -95,7 +123,9 @@ class TransactionProcessor:
                 [TpRegisterRequest(
                     family=n,
                     version=v,
-                    namespaces=h.namespaces)
+                    namespaces=h.namespaces,
+                    protocol_version=self._highest_sdk_feature_requested.value,
+                    request_header_style=self._header_style)
                  for n, v in itertools.product(
                     [h.family_name],
                      h.family_versions,)] for h in self._handlers])
@@ -120,7 +150,11 @@ class TransactionProcessor:
         request = TpProcessRequest()
         request.ParseFromString(msg.content)
         state = Context(self._stream, request.context_id)
-        header = request.header
+        if self._header_style == TpRegisterRequest.RAW:
+            header = TransactionHeader()
+            header.ParseFromString(request.header_bytes)
+        else:
+            header = request.header
         try:
             if not self._stream.is_ready():
                 raise ValidatorConnectionError()
@@ -228,8 +262,20 @@ class TransactionProcessor:
             resp = TpRegisterResponse()
             try:
                 resp.ParseFromString(future.result().content)
+                if resp.protocol_version != \
+                        self._highest_sdk_feature_requested.value:
+                    LOGGER.error("Validator version %s does not support "
+                                 "requested feature by SDK version %s. "
+                                 "Unregistering with the validator.",
+                                 str(resp.protocol_version),
+                                 str(self._highest_sdk_feature_requested
+                                     .value))
+                    raise ValidatorVersionError()
                 LOGGER.info("register attempt: %s",
                             TpRegisterResponse.Status.Name(resp.status))
+                if resp.status == TpRegisterResponse.ERROR:
+                    raise RuntimeError("Transaction processor registration "
+                                       "failed")
             except ValidatorConnectionError as vce:
                 LOGGER.info("during waiting for response on registration: %s",
                             vce)
@@ -263,7 +309,7 @@ class TransactionProcessor:
                 # spend most of its time
                 fut = self._stream.receive()
                 self._process_future(fut)
-        except KeyboardInterrupt:
+        except (KeyboardInterrupt, ValidatorVersionError):
             try:
                 # tell the validator to not send any more messages
                 self._unregister()
@@ -284,6 +330,9 @@ class TransactionProcessor:
                 # If the validator is not able to respond to the
                 # unregister request, exit.
                 pass
+        except RuntimeError as e:
+            LOGGER.error("Error: %s", e)
+            self.stop()
 
     def stop(self):
         """Closes the connection between the TransactionProcessor and the

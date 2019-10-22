@@ -24,3 +24,11 @@ class ValidatorConnectionError(Exception):
 class WorkloadConfigurationError(Exception):
     def __init__(self):
         super().__init__("A workload object is not set.")
+
+
+# ValidatorVersionError is used internal to the sdk, and
+# any other use can cause undesirable or unexpected behavior.
+class ValidatorVersionError(Exception):
+    def __init__(self):
+        super().__init__("the SDK version doesn't match with that of "
+                         "validator")
