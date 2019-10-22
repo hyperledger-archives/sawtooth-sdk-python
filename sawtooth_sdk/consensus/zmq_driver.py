@@ -84,10 +84,17 @@ class ZmqDriver(Driver):
                     future = self._stream.receive()
                 except concurrent.futures.TimeoutError:
                     continue
+                try:
+                    result = self._process(message)
+                    # if message was a ping ignore
+                    if result[0] == Message.PING_REQUEST:
+                        continue
 
-                result = self._process(message)
+                    self._updates.put(result)
 
-                self._updates.put(result)
+                except exceptions.ReceiveError as err:
+                    LOGGER.warning("%s", err)
+                    continue
         except Exception:  # pylint: disable=broad-except
             LOGGER.exception("Uncaught driver exception")
 
@@ -230,6 +237,9 @@ class ZmqDriver(Driver):
 
         elif type_tag == Message.CONSENSUS_NOTIFY_ENGINE_DEACTIVATED:
             self.stop()
+            data = None
+
+        elif type_tag == Message.PING_REQUEST:
             data = None
 
         else:
