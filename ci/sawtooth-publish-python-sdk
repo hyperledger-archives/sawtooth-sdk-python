@@ -30,7 +30,7 @@ RUN apt-get update \
     python3-pip \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
- && pip3 install --upgrade setuptools \
+ && pip3 install --upgrade setuptools twine \
  && echo '[distutils]\n\
 index-servers =\n\
   pypi\n\
@@ -43,6 +43,8 @@ password=@PASS@\n\
 CMD sed -i'' -e "s/@USER@/$PYPI_USER/g" /root/.pypirc \
  && sed -i'' -e "s/@PASS@/$PYPI_PASS/g" /root/.pypirc \
  && cd /project/sawtooth-sdk-python/ \
- && python3 setup.py sdist upload -r pypi \
+ && python3 setup.py sdist bdist_wheel \
+ && twine upload dist/* \
  && cd /project/sawtooth-sdk-python/signing \
- && python3 setup.py sdist upload -r pypi
+ && python3 setup.py sdist bdist_wheel \
+ && twine upload dist/*
