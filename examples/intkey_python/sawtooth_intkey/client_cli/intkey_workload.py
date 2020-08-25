@@ -103,9 +103,9 @@ class IntKeyWorkload(Workload):
                 self._signer = crypto_factory.new_signer(
                     private_key=private_key)
             except ParseError as pe:
-                raise IntKeyCliException(str(pe))
+                raise IntKeyCliException(str(pe)) from pe
             except IOError as ioe:
-                raise IntKeyCliException(str(ioe))
+                raise IntKeyCliException(str(ioe)) from ioe
         else:
             self._signer = crypto_factory.new_signer(
                 context.new_random_private_key())

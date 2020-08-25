@@ -54,13 +54,13 @@ class XoClient:
         except OSError as err:
             raise XoException(
                 'Failed to read private key {}: {}'.format(
-                    keyfile, str(err)))
+                    keyfile, str(err))) from err
 
         try:
             private_key = Secp256k1PrivateKey.from_hex(private_key_str)
         except ParseError as e:
             raise XoException(
-                'Unable to load private key: {}'.format(str(e)))
+                'Unable to load private key: {}'.format(str(e))) from e
 
         self._signer = CryptoFactory(create_context('secp256k1')) \
             .new_signer(private_key)
@@ -130,7 +130,7 @@ class XoClient:
                 auth_password=auth_password)
             return yaml.safe_load(result)['data'][0]['status']
         except BaseException as err:
-            raise XoException(err)
+            raise XoException(err) from err
 
     def _get_prefix(self):
         return _sha512('xo'.encode('utf-8'))[0:6]
@@ -177,10 +177,10 @@ class XoClient:
 
         except requests.ConnectionError as err:
             raise XoException(
-                'Failed to connect to {}: {}'.format(url, str(err)))
+                'Failed to connect to {}: {}'.format(url, str(err))) from err
 
         except BaseException as err:
-            raise XoException(err)
+            raise XoException(err) from err
 
         return result.text
 

@@ -50,13 +50,13 @@ class IntkeyClient:
                     fd.close()
             except OSError as err:
                 raise IntkeyClientException(
-                    'Failed to read private key: {}'.format(str(err)))
+                    'Failed to read private key: {}'.format(str(err))) from err
 
             try:
                 private_key = Secp256k1PrivateKey.from_hex(private_key_str)
             except ParseError as e:
                 raise IntkeyClientException(
-                    'Unable to load private key: {}'.format(str(e)))
+                    'Unable to load private key: {}'.format(str(e))) from e
 
             self._signer = CryptoFactory(
                 create_context('secp256k1')).new_signer(private_key)
@@ -105,7 +105,7 @@ class IntkeyClient:
                 'batch_statuses?id={}&wait={}'.format(batch_id, wait),)
             return yaml.safe_load(result)['data'][0]['status']
         except BaseException as err:
-            raise IntkeyClientException(err)
+            raise IntkeyClientException(err) from err
 
     def _get_prefix(self):
         return _sha512('intkey'.encode('utf-8'))[0:6]
@@ -141,10 +141,10 @@ class IntkeyClient:
 
         except requests.ConnectionError as err:
             raise IntkeyClientException(
-                'Failed to connect to REST API: {}'.format(err))
+                'Failed to connect to REST API: {}'.format(err)) from err
 
         except BaseException as err:
-            raise IntkeyClientException(err)
+            raise IntkeyClientException(err) from err
 
         return result.text
 

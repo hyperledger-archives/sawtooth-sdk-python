@@ -156,8 +156,8 @@ class XoState:
                 name, board, state, player1, player2 = game.split(",")
 
                 games[name] = Game(name, board, state, player1, player2)
-        except ValueError:
-            raise InternalError("Failed to deserialize game data")
+        except ValueError as e:
+            raise InternalError("Failed to deserialize game data") from e
 
         return games
 
