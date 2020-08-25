@@ -85,7 +85,7 @@ class IntKeyWorkload(Workload):
     """
 
     def __init__(self, delegate, args):
-        super(IntKeyWorkload, self).__init__(delegate, args)
+        super().__init__(delegate, args)
         self._auth_info = args.auth_info
         self._urls = []
         self._pending_batches = {}

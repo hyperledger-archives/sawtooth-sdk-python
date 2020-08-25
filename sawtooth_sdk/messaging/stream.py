@@ -62,7 +62,7 @@ class _SendReceiveThread(Thread):
                classes that the background thread of Stream is ready after
                a disconnect event.
         """
-        super(_SendReceiveThread, self).__init__()
+        super().__init__()
         self._futures = futures
         self._url = url
         self._shutdown = False
