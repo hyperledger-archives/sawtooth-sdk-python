@@ -15,9 +15,10 @@
 
 import cbor
 
-from sawtooth_processor_test.message_factory import MessageFactory
 from sawtooth_intkey.processor.handler import INTKEY_ADDRESS_PREFIX
 from sawtooth_intkey.processor.handler import make_intkey_address
+
+from sawtooth_processor_test.message_factory import MessageFactory
 
 
 class IntkeyMessageFactory:

@@ -15,9 +15,9 @@
 
 import logging
 
+from sawtooth_xo.xo_message_factory import XoMessageFactory
 from sawtooth_processor_test.transaction_processor_test_case \
     import TransactionProcessorTestCase
-from sawtooth_xo.xo_message_factory import XoMessageFactory
 
 
 LOGGER = logging.getLogger(__name__)

@@ -21,6 +21,8 @@ import random
 import requests
 import yaml
 
+from sawtooth_xo.xo_exceptions import XoException
+
 from sawtooth_signing import create_context
 from sawtooth_signing import CryptoFactory
 from sawtooth_signing import ParseError
@@ -31,8 +33,6 @@ from sawtooth_sdk.protobuf.transaction_pb2 import Transaction
 from sawtooth_sdk.protobuf.batch_pb2 import BatchList
 from sawtooth_sdk.protobuf.batch_pb2 import BatchHeader
 from sawtooth_sdk.protobuf.batch_pb2 import Batch
-
-from sawtooth_xo.xo_exceptions import XoException
 
 
 def _sha512(data):
