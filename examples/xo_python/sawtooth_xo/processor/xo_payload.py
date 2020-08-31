@@ -22,8 +22,8 @@ class XoPayload:
         try:
             # The payload is csv utf-8 encoded string
             name, action, space = payload.decode().split(",")
-        except ValueError:
-            raise InvalidTransaction("Invalid payload serialization")
+        except ValueError as e:
+            raise InvalidTransaction("Invalid payload serialization") from e
 
         if not name:
             raise InvalidTransaction('Name is required')
@@ -45,7 +45,7 @@ class XoPayload:
                         "Space must be an integer from 1 to 9")
             except ValueError:
                 raise InvalidTransaction(
-                    'Space must be an integer from 1 to 9')
+                    'Space must be an integer from 1 to 9') from ValueError
 
         if action == 'take':
             space = int(space)

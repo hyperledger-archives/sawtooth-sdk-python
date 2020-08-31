@@ -21,6 +21,8 @@ import random
 import requests
 import yaml
 
+from sawtooth_xo.xo_exceptions import XoException
+
 from sawtooth_signing import create_context
 from sawtooth_signing import CryptoFactory
 from sawtooth_signing import ParseError
@@ -31,8 +33,6 @@ from sawtooth_sdk.protobuf.transaction_pb2 import Transaction
 from sawtooth_sdk.protobuf.batch_pb2 import BatchList
 from sawtooth_sdk.protobuf.batch_pb2 import BatchHeader
 from sawtooth_sdk.protobuf.batch_pb2 import Batch
-
-from sawtooth_xo.xo_exceptions import XoException
 
 
 def _sha512(data):
@@ -54,13 +54,13 @@ class XoClient:
         except OSError as err:
             raise XoException(
                 'Failed to read private key {}: {}'.format(
-                    keyfile, str(err)))
+                    keyfile, str(err))) from err
 
         try:
             private_key = Secp256k1PrivateKey.from_hex(private_key_str)
         except ParseError as e:
             raise XoException(
-                'Unable to load private key: {}'.format(str(e)))
+                'Unable to load private key: {}'.format(str(e))) from e
 
         self._signer = CryptoFactory(create_context('secp256k1')) \
             .new_signer(private_key)
@@ -130,7 +130,7 @@ class XoClient:
                 auth_password=auth_password)
             return yaml.safe_load(result)['data'][0]['status']
         except BaseException as err:
-            raise XoException(err)
+            raise XoException(err) from err
 
     def _get_prefix(self):
         return _sha512('xo'.encode('utf-8'))[0:6]
@@ -177,10 +177,10 @@ class XoClient:
 
         except requests.ConnectionError as err:
             raise XoException(
-                'Failed to connect to {}: {}'.format(url, str(err)))
+                'Failed to connect to {}: {}'.format(url, str(err))) from err
 
         except BaseException as err:
-            raise XoException(err)
+            raise XoException(err) from err
 
         return result.text
 

@@ -18,12 +18,6 @@ import os
 import argparse
 import pkg_resources
 
-from sawtooth_sdk.processor.core import TransactionProcessor
-from sawtooth_sdk.processor.log import init_console_logging
-from sawtooth_sdk.processor.log import log_configuration
-from sawtooth_sdk.processor.config import get_log_config
-from sawtooth_sdk.processor.config import get_log_dir
-from sawtooth_sdk.processor.config import get_config_dir
 from sawtooth_xo.processor.handler import XoTransactionHandler
 from sawtooth_xo.processor.config.xo import XOConfig
 from sawtooth_xo.processor.config.xo import \
@@ -32,6 +26,13 @@ from sawtooth_xo.processor.config.xo import \
     load_toml_xo_config
 from sawtooth_xo.processor.config.xo import \
     merge_xo_config
+
+from sawtooth_sdk.processor.core import TransactionProcessor
+from sawtooth_sdk.processor.log import init_console_logging
+from sawtooth_sdk.processor.log import log_configuration
+from sawtooth_sdk.processor.config import get_log_config
+from sawtooth_sdk.processor.config import get_log_dir
+from sawtooth_sdk.processor.config import get_config_dir
 
 
 DISTRIBUTION_NAME = 'sawtooth-xo'

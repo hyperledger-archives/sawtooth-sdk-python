@@ -24,16 +24,18 @@ import getpass
 from base64 import b64encode
 
 import requests
-from sawtooth_signing import create_context
-from sawtooth_signing import CryptoFactory
-from sawtooth_signing import ParseError
-from sawtooth_signing.secp256k1 import Secp256k1PrivateKey
+
 from sawtooth_intkey.client_cli.workload.workload_generator import \
     WorkloadGenerator
 from sawtooth_intkey.client_cli.workload.sawtooth_workload import Workload
 from sawtooth_intkey.client_cli.create_batch import create_intkey_transaction
 from sawtooth_intkey.client_cli.create_batch import create_batch
 from sawtooth_intkey.client_cli.exceptions import IntKeyCliException
+
+from sawtooth_signing import create_context
+from sawtooth_signing import CryptoFactory
+from sawtooth_signing import ParseError
+from sawtooth_signing.secp256k1 import Secp256k1PrivateKey
 from sawtooth_sdk.protobuf import batch_pb2
 
 LOGGER = logging.getLogger(__name__)
@@ -85,7 +87,7 @@ class IntKeyWorkload(Workload):
     """
 
     def __init__(self, delegate, args):
-        super(IntKeyWorkload, self).__init__(delegate, args)
+        super().__init__(delegate, args)
         self._auth_info = args.auth_info
         self._urls = []
         self._pending_batches = {}
@@ -103,9 +105,9 @@ class IntKeyWorkload(Workload):
                 self._signer = crypto_factory.new_signer(
                     private_key=private_key)
             except ParseError as pe:
-                raise IntKeyCliException(str(pe))
+                raise IntKeyCliException(str(pe)) from pe
             except IOError as ioe:
-                raise IntKeyCliException(str(ioe))
+                raise IntKeyCliException(str(ioe)) from ioe
         else:
             self._signer = crypto_factory.new_signer(
                 context.new_random_private_key())

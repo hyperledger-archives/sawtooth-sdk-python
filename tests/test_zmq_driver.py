@@ -51,9 +51,13 @@ class MockEngine(Engine):
     def stop(self):
         self.exit = True
 
+    # Ignore invalid override pylint issues
+    # pylint: disable=invalid-overridden-method
     def name(self):
         return 'test-name'
 
+    # Ignore invalid override pylint issues
+    # pylint: disable=invalid-overridden-method
     def version(self):
         return 'test-version'
 

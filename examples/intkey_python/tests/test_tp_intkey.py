@@ -15,9 +15,9 @@
 
 import cbor
 
+from sawtooth_intkey.intkey_message_factory import IntkeyMessageFactory
 from sawtooth_processor_test.transaction_processor_test_case \
     import TransactionProcessorTestCase
-from sawtooth_intkey.intkey_message_factory import IntkeyMessageFactory
 from sawtooth_sdk.protobuf.validator_pb2 import Message
 
 

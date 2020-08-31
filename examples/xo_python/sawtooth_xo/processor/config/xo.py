@@ -62,7 +62,7 @@ def load_toml_xo_config(filename):
     except IOError as e:
         raise LocalConfigurationError(
             "Unable to load transaction processor configuration file:"
-            " {}".format(str(e)))
+            " {}".format(str(e))) from e
 
     toml_config = toml.loads(raw_config)
     invalid_keys = set(toml_config.keys()).difference(

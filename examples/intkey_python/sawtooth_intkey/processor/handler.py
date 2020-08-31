@@ -83,23 +83,23 @@ def _unpack_transaction(transaction):
 def _decode_transaction(transaction):
     try:
         content = cbor.loads(transaction.payload)
-    except:
-        raise InvalidTransaction('Invalid payload serialization')
+    except Exception as e:
+        raise InvalidTransaction('Invalid payload serialization') from e
 
     try:
         verb = content['Verb']
     except AttributeError:
-        raise InvalidTransaction('Verb is required')
+        raise InvalidTransaction('Verb is required') from AttributeError
 
     try:
         name = content['Name']
     except AttributeError:
-        raise InvalidTransaction('Name is required')
+        raise InvalidTransaction('Name is required') from AttributeError
 
     try:
         value = content['Value']
     except AttributeError:
-        raise InvalidTransaction('Value is required')
+        raise InvalidTransaction('Value is required') from AttributeError
 
     return verb, name, value
 
@@ -134,8 +134,8 @@ def _get_state_data(name, context):
         return cbor.loads(state_entries[0].data)
     except IndexError:
         return {}
-    except:
-        raise InternalError('Failed to load state data')
+    except Exception as e:
+        raise InternalError('Failed to load state data') from e
 
 
 def _set_state_data(name, state, context):
@@ -160,7 +160,7 @@ def _do_intkey(verb, name, value, state):
         return verbs[verb](name, value, state)
     except KeyError:
         # This would be a programming error.
-        raise InternalError('Unhandled verb: {}'.format(verb))
+        raise InternalError('Unhandled verb: {}'.format(verb)) from KeyError
 
 
 def _do_set(name, value, state):

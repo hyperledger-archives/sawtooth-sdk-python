@@ -15,15 +15,14 @@
 
 import logging
 
-
-from sawtooth_sdk.processor.handler import TransactionHandler
-from sawtooth_sdk.processor.exceptions import InvalidTransaction
-from sawtooth_sdk.processor.exceptions import InternalError
-
 from sawtooth_xo.processor.xo_payload import XoPayload
 from sawtooth_xo.processor.xo_state import Game
 from sawtooth_xo.processor.xo_state import XoState
 from sawtooth_xo.processor.xo_state import XO_NAMESPACE
+
+from sawtooth_sdk.processor.handler import TransactionHandler
+from sawtooth_sdk.processor.exceptions import InvalidTransaction
+from sawtooth_sdk.processor.exceptions import InternalError
 
 
 LOGGER = logging.getLogger(__name__)

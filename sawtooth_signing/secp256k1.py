@@ -55,7 +55,8 @@ class Secp256k1PrivateKey(PrivateKey):
         try:
             return Secp256k1PrivateKey.from_bytes(binascii.unhexlify(hex_str))
         except Exception as e:
-            raise ParseError('Unable to parse hex private key: {}'.format(e))
+            raise ParseError('Unable to parse hex private key: {}'.format(
+                e)) from e
 
     @staticmethod
     def new_random():
@@ -91,7 +92,8 @@ class Secp256k1PublicKey(PublicKey):
         try:
             return Secp256k1PublicKey.from_bytes(binascii.unhexlify(hex_str))
         except Exception as e:
-            raise ParseError('Unable to parse hex public key: {}'.format(e))
+            raise ParseError('Unable to parse hex public key: {}'.format(
+                e)) from e
 
 
 class Secp256k1Context(Context):
@@ -109,7 +111,8 @@ class Secp256k1Context(Context):
 
             return signature.hex()
         except Exception as e:
-            raise SigningError('Unable to sign message: {}'.format(str(e)))
+            raise SigningError('Unable to sign message: {}'.format(
+                str(e))) from e
 
     def verify(self, signature, message, public_key):
         try:

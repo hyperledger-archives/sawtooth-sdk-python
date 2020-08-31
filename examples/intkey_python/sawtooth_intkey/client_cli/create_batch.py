@@ -24,14 +24,13 @@ import string
 import time
 import cbor
 
+from sawtooth_intkey.processor.handler import make_intkey_address
+
 from sawtooth_signing import create_context
 from sawtooth_signing import CryptoFactory
 
 from sawtooth_sdk.protobuf import batch_pb2
 from sawtooth_sdk.protobuf import transaction_pb2
-
-from sawtooth_intkey.processor.handler import make_intkey_address
-
 
 LOGGER = logging.getLogger(__name__)
 

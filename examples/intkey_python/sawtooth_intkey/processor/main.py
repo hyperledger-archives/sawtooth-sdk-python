@@ -17,12 +17,13 @@ import sys
 import argparse
 import pkg_resources
 
+from sawtooth_intkey.processor.handler import IntkeyTransactionHandler
+
 from sawtooth_sdk.processor.core import TransactionProcessor
 from sawtooth_sdk.processor.log import init_console_logging
 from sawtooth_sdk.processor.log import log_configuration
 from sawtooth_sdk.processor.config import get_log_config
 from sawtooth_sdk.processor.config import get_log_dir
-from sawtooth_intkey.processor.handler import IntkeyTransactionHandler
 
 
 DISTRIBUTION_NAME = 'sawtooth-intkey'
