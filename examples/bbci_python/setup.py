@@ -23,23 +23,23 @@ from setuptools import setup, find_packages
 conf_dir = "/etc/sawtooth"
 
 data_files = [
-    (conf_dir, ['packaging/xo.toml.example'])
+    (conf_dir, ['packaging/bbci.toml.example'])
 ]
 
 if os.path.exists("/etc/default"):
     data_files.append(
-        ('/etc/default', ['packaging/systemd/sawtooth-xo-tp-python']))
+        ('/etc/default', ['packaging/systemd/sawtooth-bbci-tp-python']))
 
 if os.path.exists("/lib/systemd/system"):
     data_files.append(('/lib/systemd/system',
-                       ['packaging/systemd/sawtooth-xo-tp-python.service']))
+                       ['packaging/systemd/sawtooth-bbci-tp-python.service']))
 
 setup(
-    name='sawtooth-xo',
+    name='sawtooth-bbci',
     version=subprocess.check_output(
         ['../../bin/get_version']).decode('utf-8').strip(),
-    description='Sawtooth XO Example',
-    author='Hyperledger Sawtooth',
+    description='BBCI Application',
+    author='KM Alarcon',
     url='https://github.com/hyperledger/sawtooth-sdk-python',
     packages=find_packages(),
     install_requires=[
@@ -52,7 +52,7 @@ setup(
     data_files=data_files,
     entry_points={
         'console_scripts': [
-            'xo = sawtooth_xo.xo_cli:main_wrapper',
-            'xo-tp-python = sawtooth_xo.processor.main:main',
+            'bbci = sawtooth_bbci.bbci_cli:main_wrapper',
+            'bbci-tp-python = sawtooth_bbci.processor.main:main',
         ]
     })
