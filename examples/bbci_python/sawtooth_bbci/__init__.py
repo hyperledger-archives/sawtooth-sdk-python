@@ -14,7 +14,7 @@
 # -----------------------------------------------------------------------------
 
 __all__ = [
-    'xo_cli',
-    'xo_client',
-    'xo_exceptions'
+    'bbci_cli',
+    'bbci_client',
+    'bbci_exceptions'
 ]

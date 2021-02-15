@@ -21,7 +21,7 @@ import random
 import requests
 import yaml
 
-from sawtooth_xo.xo_exceptions import XoException
+from sawtooth_bbci.bbci_exceptions import BBCIException
 
 from sawtooth_signing import create_context
 from sawtooth_signing import CryptoFactory
@@ -39,7 +39,7 @@ def _sha512(data):
     return hashlib.sha512(data).hexdigest()
 
 
-class XoClient:
+class BBCIClient:
     def __init__(self, base_url, keyfile=None):
 
         self._base_url = base_url
@@ -52,21 +52,21 @@ class XoClient:
             with open(keyfile) as fd:
                 private_key_str = fd.read().strip()
         except OSError as err:
-            raise XoException(
+            raise BBCIException(
                 'Failed to read private key {}: {}'.format(
                     keyfile, str(err))) from err
 
         try:
             private_key = Secp256k1PrivateKey.from_hex(private_key_str)
         except ParseError as e:
-            raise XoException(
+            raise BBCIException(
                 'Unable to load private key: {}'.format(str(e))) from e
 
         self._signer = CryptoFactory(create_context('secp256k1')) \
             .new_signer(private_key)
 
     def create(self, name, wait=None, auth_user=None, auth_password=None):
-        return self._send_xo_txn(
+        return self._send_bbci_txn(
             name,
             "create",
             wait=wait,
@@ -74,7 +74,7 @@ class XoClient:
             auth_password=auth_password)
 
     def delete(self, name, wait=None, auth_user=None, auth_password=None):
-        return self._send_xo_txn(
+        return self._send_bbci_txn(
             name,
             "delete",
             wait=wait,
@@ -82,7 +82,7 @@ class XoClient:
             auth_password=auth_password)
 
     def take(self, name, space, wait=None, auth_user=None, auth_password=None):
-        return self._send_xo_txn(
+        return self._send_bbci_txn(
             name,
             "take",
             space,
@@ -91,10 +91,10 @@ class XoClient:
             auth_password=auth_password)
 
     def list(self, auth_user=None, auth_password=None):
-        xo_prefix = self._get_prefix()
+        bbci_prefix = self._get_prefix()
 
         result = self._send_request(
-            "state?address={}".format(xo_prefix),
+            "state?address={}".format(bbci_prefix),
             auth_user=auth_user,
             auth_password=auth_password)
 
@@ -130,15 +130,15 @@ class XoClient:
                 auth_password=auth_password)
             return yaml.safe_load(result)['data'][0]['status']
         except BaseException as err:
-            raise XoException(err) from err
+            raise BBCIException(err) from err
 
     def _get_prefix(self):
-        return _sha512('xo'.encode('utf-8'))[0:6]
+        return _sha512('bbci'.encode('utf-8'))[0:6]
 
     def _get_address(self, name):
-        xo_prefix = self._get_prefix()
+        bbci_prefix = self._get_prefix()
         game_address = _sha512(name.encode('utf-8'))[0:64]
-        return xo_prefix + game_address
+        return bbci_prefix + game_address
 
     def _send_request(self,
                       suffix,
@@ -169,22 +169,22 @@ class XoClient:
                 result = requests.get(url, headers=headers)
 
             if result.status_code == 404:
-                raise XoException("No such game: {}".format(name))
+                raise BBCIException("No such game: {}".format(name))
 
             if not result.ok:
-                raise XoException("Error {}: {}".format(
+                raise BBCIException("Error {}: {}".format(
                     result.status_code, result.reason))
 
         except requests.ConnectionError as err:
-            raise XoException(
+            raise BBCIException(
                 'Failed to connect to {}: {}'.format(url, str(err))) from err
 
         except BaseException as err:
-            raise XoException(err) from err
+            raise BBCIException(err) from err
 
         return result.text
 
-    def _send_xo_txn(self,
+    def _send_bbci_txn(self,
                      name,
                      action,
                      space="",
@@ -199,7 +199,7 @@ class XoClient:
 
         header = TransactionHeader(
             signer_public_key=self._signer.get_public_key().as_hex(),
-            family_name="xo",
+            family_name="bbci",
             family_version="1.0",
             inputs=[address],
             outputs=[address],

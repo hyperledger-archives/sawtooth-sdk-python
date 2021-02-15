@@ -25,11 +25,11 @@ import pkg_resources
 
 from colorlog import ColoredFormatter
 
-from sawtooth_xo.xo_client import XoClient
-from sawtooth_xo.xo_exceptions import XoException
+from sawtooth_bbci.bbci_client import BBCIClient
+from sawtooth_bbci.bbci_exceptions import BBCIException
 
 
-DISTRIBUTION_NAME = 'sawtooth-xo'
+DISTRIBUTION_NAME = 'sawtooth-bbci'
 
 
 DEFAULT_URL = 'http://127.0.0.1:8008'
@@ -71,8 +71,8 @@ def setup_loggers(verbose_level):
 def add_create_parser(subparsers, parent_parser):
     parser = subparsers.add_parser(
         'create',
-        help='Creates a new xo game',
-        description='Sends a transaction to start an xo game with the '
+        help='Creates a new bbci game',
+        description='Sends a transaction to start an bbci game with the '
         'identifier <name>. This transaction will fail if the specified '
         'game already exists.',
         parents=[parent_parser])
@@ -126,8 +126,8 @@ def add_create_parser(subparsers, parent_parser):
 def add_list_parser(subparsers, parent_parser):
     parser = subparsers.add_parser(
         'list',
-        help='Displays information for all xo games',
-        description='Displays information for all xo games in state, showing '
+        help='Displays information for all bbci games',
+        description='Displays information for all bbci games in state, showing '
         'the players, the game state, and the board for each game.',
         parents=[parent_parser])
 
@@ -162,8 +162,8 @@ def add_list_parser(subparsers, parent_parser):
 def add_show_parser(subparsers, parent_parser):
     parser = subparsers.add_parser(
         'show',
-        help='Displays information about an xo game',
-        description='Displays the xo game <name>, showing the players, '
+        help='Displays information about an bbci game',
+        description='Displays the bbci game <name>, showing the players, '
         'the game state, and the board',
         parents=[parent_parser])
 
@@ -203,8 +203,8 @@ def add_show_parser(subparsers, parent_parser):
 def add_take_parser(subparsers, parent_parser):
     parser = subparsers.add_parser(
         'take',
-        help='Takes a space in an xo game',
-        description='Sends a transaction to take a square in the xo game '
+        help='Takes a space in an bbci game',
+        description='Sends a transaction to take a square in the bbci game '
         'with the identifier <name>. This transaction will fail if the '
         'specified game does not exist.',
         parents=[parent_parser])
@@ -326,7 +326,7 @@ def create_parser(prog_name):
 
     parser = argparse.ArgumentParser(
         description='Provides subcommands to play tic-tac-toe (also known as '
-        'Noughts and Crosses) by sending XO transactions.',
+        'Noughts and Crosses) by sending BBCI transactions.',
         parents=[parent_parser])
 
     subparsers = parser.add_subparsers(title='subcommands', dest='command')
@@ -346,7 +346,7 @@ def do_list(args):
     url = _get_url(args)
     auth_user, auth_password = _get_auth_info(args)
 
-    client = XoClient(base_url=url, keyfile=None)
+    client = BBCIClient(base_url=url, keyfile=None)
 
     game_list = [
         game.split(',')
@@ -364,7 +364,7 @@ def do_list(args):
 
             print(fmt % (name, player1[:6], player2[:6], board, game_state))
     else:
-        raise XoException("Could not retrieve game listing.")
+        raise BBCIException("Could not retrieve game listing.")
 
 
 def do_show(args):
@@ -373,7 +373,7 @@ def do_show(args):
     url = _get_url(args)
     auth_user, auth_password = _get_auth_info(args)
 
-    client = XoClient(base_url=url, keyfile=None)
+    client = BBCIClient(base_url=url, keyfile=None)
 
     data = client.show(name, auth_user=auth_user, auth_password=auth_password)
 
@@ -402,7 +402,7 @@ def do_show(args):
         print("")
 
     else:
-        raise XoException("Game not found: {}".format(name))
+        raise BBCIException("Game not found: {}".format(name))
 
 
 def do_create(args):
@@ -412,7 +412,7 @@ def do_create(args):
     keyfile = _get_keyfile(args)
     auth_user, auth_password = _get_auth_info(args)
 
-    client = XoClient(base_url=url, keyfile=keyfile)
+    client = BBCIClient(base_url=url, keyfile=keyfile)
 
     if args.wait and args.wait > 0:
         response = client.create(
@@ -435,7 +435,7 @@ def do_take(args):
     keyfile = _get_keyfile(args)
     auth_user, auth_password = _get_auth_info(args)
 
-    client = XoClient(base_url=url, keyfile=keyfile)
+    client = BBCIClient(base_url=url, keyfile=keyfile)
 
     if args.wait and args.wait > 0:
         response = client.take(
@@ -458,7 +458,7 @@ def do_delete(args):
     keyfile = _get_keyfile(args)
     auth_user, auth_password = _get_auth_info(args)
 
-    client = XoClient(base_url=url, keyfile=keyfile)
+    client = BBCIClient(base_url=url, keyfile=keyfile)
 
     if args.wait and args.wait > 0:
         response = client.delete(
@@ -518,13 +518,13 @@ def main(prog_name=os.path.basename(sys.argv[0]), args=None):
     elif args.command == 'delete':
         do_delete(args)
     else:
-        raise XoException("invalid command: {}".format(args.command))
+        raise BBCIException("invalid command: {}".format(args.command))
 
 
 def main_wrapper():
     try:
         main()
-    except XoException as err:
+    except BBCIException as err:
         print("Error: {}".format(err), file=sys.stderr)
         sys.exit(1)
     except KeyboardInterrupt:

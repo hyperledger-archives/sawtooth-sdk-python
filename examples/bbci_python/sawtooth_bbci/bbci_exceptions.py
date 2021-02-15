@@ -14,5 +14,5 @@
 # ------------------------------------------------------------------------------
 
 
-class XoException(Exception):
+class BBCIException(Exception):
     pass
