@@ -13,4 +13,4 @@
 # limitations under the License.
 # ------------------------------------------------------------------------------
 
-SAWTOOTH_XO_TP_PYTHON_ARGS=-v -C tcp://localhost:4004
+SAWTOOTH_BBCI_TP_PYTHON_ARGS=-v -C tcp://localhost:4004
