@@ -16,7 +16,7 @@
 from sawtooth_sdk.processor.exceptions import InvalidTransaction
 
 
-class XoPayload:
+class BBCIPayload:
 
     def __init__(self, payload):
         try:
@@ -56,7 +56,7 @@ class XoPayload:
 
     @staticmethod
     def from_bytes(payload):
-        return XoPayload(payload=payload)
+        return BBCIPayload(payload=payload)
 
     @property
     def name(self):

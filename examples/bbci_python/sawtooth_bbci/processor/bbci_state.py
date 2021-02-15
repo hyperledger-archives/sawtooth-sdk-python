@@ -18,11 +18,11 @@ import hashlib
 from sawtooth_sdk.processor.exceptions import InternalError
 
 
-XO_NAMESPACE = hashlib.sha512('xo'.encode("utf-8")).hexdigest()[0:6]
+BBCI_NAMESPACE = hashlib.sha512('bbci'.encode("utf-8")).hexdigest()[0:6]
 
 
-def _make_xo_address(name):
-    return XO_NAMESPACE + \
+def _make_bbci_address(name):
+    return BBCI_NAMESPACE + \
         hashlib.sha512(name.encode('utf-8')).hexdigest()[:64]
 
 
@@ -35,7 +35,7 @@ class Game:
         self.player2 = player2
 
 
-class XoState:
+class BBCIState:
 
     TIMEOUT = 3
 
@@ -95,7 +95,7 @@ class XoState:
         return self._load_games(game_name=game_name).get(game_name)
 
     def _store_game(self, game_name, games):
-        address = _make_xo_address(game_name)
+        address = _make_bbci_address(game_name)
 
         state_data = self._serialize(games)
 
@@ -106,7 +106,7 @@ class XoState:
             timeout=self.TIMEOUT)
 
     def _delete_game(self, game_name):
-        address = _make_xo_address(game_name)
+        address = _make_bbci_address(game_name)
 
         self._context.delete_state(
             [address],
@@ -115,7 +115,7 @@ class XoState:
         self._address_cache[address] = None
 
     def _load_games(self, game_name):
-        address = _make_xo_address(game_name)
+        address = _make_bbci_address(game_name)
 
         if address in self._address_cache:
             if self._address_cache[address]:

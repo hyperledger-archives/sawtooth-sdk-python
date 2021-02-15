@@ -15,10 +15,10 @@
 
 import logging
 
-from sawtooth_xo.processor.xo_payload import XoPayload
-from sawtooth_xo.processor.xo_state import Game
-from sawtooth_xo.processor.xo_state import XoState
-from sawtooth_xo.processor.xo_state import XO_NAMESPACE
+from sawtooth_bbci.processor.bbci_payload import BBCIPayload
+from sawtooth_bbci.processor.bbci_state import Game
+from sawtooth_bbci.processor.bbci_state import BBCIState
+from sawtooth_bbci.processor.bbci_state import BBCI_NAMESPACE
 
 from sawtooth_sdk.processor.handler import TransactionHandler
 from sawtooth_sdk.processor.exceptions import InvalidTransaction
@@ -28,13 +28,13 @@ from sawtooth_sdk.processor.exceptions import InternalError
 LOGGER = logging.getLogger(__name__)
 
 
-class XoTransactionHandler(TransactionHandler):
+class BBCITransactionHandler(TransactionHandler):
     # Disable invalid-overridden-method. The sawtooth-sdk expects these to be
     # properties.
     # pylint: disable=invalid-overridden-method
     @property
     def family_name(self):
-        return 'xo'
+        return 'bbci'
 
     @property
     def family_versions(self):
@@ -42,44 +42,44 @@ class XoTransactionHandler(TransactionHandler):
 
     @property
     def namespaces(self):
-        return [XO_NAMESPACE]
+        return [BBCI_NAMESPACE]
 
     def apply(self, transaction, context):
 
         header = transaction.header
         signer = header.signer_public_key
 
-        xo_payload = XoPayload.from_bytes(transaction.payload)
+        bbci_payload = BBCIPayload.from_bytes(transaction.payload)
 
-        xo_state = XoState(context)
+        bbci_state = BBCIState(context)
 
-        if xo_payload.action == 'delete':
-            game = xo_state.get_game(xo_payload.name)
+        if bbci_payload.action == 'delete':
+            game = bbci_state.get_game(bbci_payload.name)
 
             if game is None:
                 raise InvalidTransaction(
                     'Invalid action: game does not exist')
 
-            xo_state.delete_game(xo_payload.name)
+            bbci_state.delete_game(bbci_payload.name)
 
-        elif xo_payload.action == 'create':
+        elif bbci_payload.action == 'create':
 
-            if xo_state.get_game(xo_payload.name) is not None:
+            if bbci_state.get_game(bbci_payload.name) is not None:
                 raise InvalidTransaction(
                     'Invalid action: Game already exists: {}'.format(
-                        xo_payload.name))
+                        bbci_payload.name))
 
-            game = Game(name=xo_payload.name,
+            game = Game(name=bbci_payload.name,
                         board="-" * 9,
                         state="P1-NEXT",
                         player1="",
                         player2="")
 
-            xo_state.set_game(xo_payload.name, game)
+            bbci_state.set_game(bbci_payload.name, game)
             _display("Player {} created a game.".format(signer[:6]))
 
-        elif xo_payload.action == 'take':
-            game = xo_state.get_game(xo_payload.name)
+        elif bbci_payload.action == 'take':
+            game = bbci_state.get_game(bbci_payload.name)
 
             if game is None:
                 raise InvalidTransaction(
@@ -95,10 +95,10 @@ class XoTransactionHandler(TransactionHandler):
                 raise InvalidTransaction(
                     "Not this player's turn: {}".format(signer[:6]))
 
-            if game.board[xo_payload.space - 1] != '-':
+            if game.board[bbci_payload.space - 1] != '-':
                 raise InvalidTransaction(
                     'Invalid Action: space {} already taken'.format(
-                        xo_payload))
+                        bbci_payload))
 
             if game.player1 == '':
                 game.player1 = signer
@@ -107,7 +107,7 @@ class XoTransactionHandler(TransactionHandler):
                 game.player2 = signer
 
             upd_board = _update_board(game.board,
-                                      xo_payload.space,
+                                      bbci_payload.space,
                                       game.state)
 
             upd_game_state = _update_game_state(game.state, upd_board)
@@ -115,21 +115,21 @@ class XoTransactionHandler(TransactionHandler):
             game.board = upd_board
             game.state = upd_game_state
 
-            xo_state.set_game(xo_payload.name, game)
+            bbci_state.set_game(bbci_payload.name, game)
             _display(
                 "Player {} takes space: {}\n\n".format(
                     signer[:6],
-                    xo_payload.space)
+                    bbci_payload.space)
                 + _game_data_to_str(
                     game.board,
                     game.state,
                     game.player1,
                     game.player2,
-                    xo_payload.name))
+                    bbci_payload.name))
 
         else:
             raise InvalidTransaction('Unhandled action: {}'.format(
-                xo_payload.action))
+                bbci_payload.action))
 
 
 def _update_board(board, space, state):

@@ -24,24 +24,24 @@ from sawtooth_sdk.processor.exceptions import LocalConfigurationError
 LOGGER = logging.getLogger(__name__)
 
 
-def load_default_xo_config():
+def load_default_bbci_config():
     """
-    Returns the default XOConfig
+    Returns the default BBCIConfig
     """
-    return XOConfig(
+    return BBCIConfig(
         connect='tcp://localhost:4004',
     )
 
 
-def load_toml_xo_config(filename):
-    """Returns a XOConfig created by loading a TOML file from the
+def load_toml_bbci_config(filename):
+    """Returns a BBCIConfig created by loading a TOML file from the
     filesystem.
 
     Args:
         filename (string): The name of the file to load the config from
 
     Returns:
-        config (XOConfig): The XOConfig created from the stored
+        config (BBCIConfig): The BBCIConfig created from the stored
             toml file.
 
     Raises:
@@ -51,7 +51,7 @@ def load_toml_xo_config(filename):
         LOGGER.info(
             "Skipping transaction proccesor config loading from non-existent"
             " config file: %s", filename)
-        return XOConfig()
+        return BBCIConfig()
 
     LOGGER.info("Loading transaction processor information from config: %s",
                 filename)
@@ -72,25 +72,25 @@ def load_toml_xo_config(filename):
             "Invalid keys in transaction processor config: "
             "{}".format(", ".join(sorted(list(invalid_keys)))))
 
-    config = XOConfig(
+    config = BBCIConfig(
         connect=toml_config.get("connect", None)
     )
 
     return config
 
 
-def merge_xo_config(configs):
+def merge_bbci_config(configs):
     """
-    Given a list of XOConfig objects, merges them into a single
-    XOConfig, giving priority in the order of the configs
+    Given a list of BBCIConfig objects, merges them into a single
+    BBCIConfig, giving priority in the order of the configs
     (first has highest priority).
 
     Args:
-        config (list of XOConfigs): The list of xo configs that
+        config (list of BBCIConfigs): The list of bbci configs that
             must be merged together
 
     Returns:
-        config (XOConfig): One XOConfig that combines all of the
+        config (BBCIConfig): One BBCIConfig that combines all of the
             passed in configs.
     """
     connect = None
@@ -99,12 +99,12 @@ def merge_xo_config(configs):
         if config.connect is not None:
             connect = config.connect
 
-    return XOConfig(
+    return BBCIConfig(
         connect=connect
     )
 
 
-class XOConfig:
+class BBCIConfig:
     def __init__(self, connect=None):
         self._connect = connect
 
