@@ -17,23 +17,23 @@ version: "2.1"
 
 services:
 
-  xo-tp-python:
+  bbci-tp-python:
     build:
       context: ../../..
-      dockerfile: ./examples/xo_python/Dockerfile
+      dockerfile: ./examples/bbci_python/Dockerfile
       args:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: sawtooth-xo-tp-python$INSTALL_TYPE:$ISOLATION_ID
+    image: sawtooth-bbci-tp-python$INSTALL_TYPE:$ISOLATION_ID
     volumes:
       - $SAWTOOTH_SDK_PYTHON:/project/sawtooth-sdk-python
     expose:
       - 4004
-    command: xo-tp-python -vv -C tcp://test-tp-xo-python:4004
+    command: bbci-tp-python -vv -C tcp://test-tp-bbci-python:4004
     stop_signal: SIGKILL
 
-  test-tp-xo-python:
+  test-tp-bbci-python:
     build:
       context: ../../..
       dockerfile: tests/python-sdk-tests.dockerfile
@@ -47,13 +47,13 @@ services:
     expose:
       - 4004
     command: nose2-3
-        -c /project/sawtooth-sdk-python/examples/xo_python/nose2.cfg
+        -c /project/sawtooth-sdk-python/examples/bbci_python/nose2.cfg
         -v
-        -s /project/sawtooth-sdk-python/examples/xo_python/tests
-        test_tp_xo
+        -s /project/sawtooth-sdk-python/examples/bbci_python/tests
+        test_tp_bbci
     stop_signal: SIGKILL
     environment:
       TEST_BIND: "tcp://eth0:4004"
       PYTHONPATH: "\
         /project/sawtooth-sdk-python/:\
-        /project/sawtooth-sdk-python/examples/xo_python"
+        /project/sawtooth-sdk-python/examples/bbci_python"

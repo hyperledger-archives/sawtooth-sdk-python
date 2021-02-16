@@ -15,7 +15,7 @@
 
 import logging
 
-from sawtooth_xo.xo_message_factory import XoMessageFactory
+from sawtooth_bbci.bbci_message_factory import BBCIMessageFactory
 from sawtooth_processor_test.transaction_processor_test_case \
     import TransactionProcessorTestCase
 
@@ -23,15 +23,15 @@ from sawtooth_processor_test.transaction_processor_test_case \
 LOGGER = logging.getLogger(__name__)
 
 
-class TestXo(TransactionProcessorTestCase):
+class TestBBCI(TransactionProcessorTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
 
-        cls.player_1 = XoMessageFactory()
+        cls.player_1 = BBCIMessageFactory()
         cls.public_key_1 = cls.player_1.get_public_key()
 
-        cls.player_2 = XoMessageFactory()
+        cls.player_2 = BBCIMessageFactory()
         cls.public_key_2 = cls.player_2.get_public_key()
 
     # invalid inputs
