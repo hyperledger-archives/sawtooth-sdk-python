@@ -51,7 +51,6 @@ services:
   #     "
   #   stop_signal: SIGKILL
 
-
   # xo-tp-python:
   #   build:
   #     context: .
@@ -76,7 +75,7 @@ services:
   #     "
   #   stop_signal: SIGKILL
 
- bbci-tp-python:
+  bbci-tp-python:
     build:
       context: .
       dockerfile: examples/bbci_python/Dockerfile
