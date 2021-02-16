@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# docker build -f examples/sdk/xo_python/Dockerfile -t xo-tp-python-local .
+# docker build -f examples/sdk/bbci_python/Dockerfile -t bbci-tp-python-local .
 
 # -------------===  build ===-------------
 
@@ -50,8 +50,8 @@ ENV PATH=$PATH:/project/sawtooth-sdk-python/bin
 
 WORKDIR /project/sawtooth-sdk-python
 
-CMD echo "\033[0;32m--- Building xo-tp-python ---\n\033[0m" \
+CMD echo "\033[0;32m--- Building bbci-tp-python ---\n\033[0m" \
  && bin/protogen \
- && cd examples/xo_python \
+ && cd examples/bbci_python \
  && python3 setup.py clean --all \
  && python3 setup.py build
