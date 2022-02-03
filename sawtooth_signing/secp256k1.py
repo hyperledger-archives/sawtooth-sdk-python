@@ -25,9 +25,6 @@ from sawtooth_signing.core import PrivateKey
 from sawtooth_signing.core import PublicKey
 from sawtooth_signing.core import Context
 
-__CONTEXTBASE__ = secp256k1.Base(ctx=None, flags=secp256k1.ALL_FLAGS)
-__CTX__ = __CONTEXTBASE__.ctx
-
 
 class Secp256k1PrivateKey(PrivateKey):
     def __init__(self, secp256k1_private_key):
@@ -48,7 +45,7 @@ class Secp256k1PrivateKey(PrivateKey):
 
     @staticmethod
     def from_bytes(byte_str):
-        return Secp256k1PrivateKey(secp256k1.PrivateKey(byte_str, ctx=__CTX__))
+        return Secp256k1PrivateKey(secp256k1.PrivateKey(byte_str))
 
     @staticmethod
     def from_hex(hex_str):
@@ -60,7 +57,7 @@ class Secp256k1PrivateKey(PrivateKey):
 
     @staticmethod
     def new_random():
-        return Secp256k1PrivateKey(secp256k1.PrivateKey(ctx=__CTX__))
+        return Secp256k1PrivateKey(secp256k1.PrivateKey())
 
 
 class Secp256k1PublicKey(PublicKey):
@@ -84,7 +81,7 @@ class Secp256k1PublicKey(PublicKey):
 
     @staticmethod
     def from_bytes(byte_str):
-        public_key = secp256k1.PublicKey(byte_str, raw=True, ctx=__CTX__)
+        public_key = secp256k1.PublicKey(byte_str, raw=True)
         return Secp256k1PublicKey(public_key)
 
     @staticmethod
@@ -97,9 +94,6 @@ class Secp256k1PublicKey(PublicKey):
 
 
 class Secp256k1Context(Context):
-    def __init__(self):
-        self._ctx = __CTX__
-
     def get_algorithm_name(self):
         return "secp256k1"
 
