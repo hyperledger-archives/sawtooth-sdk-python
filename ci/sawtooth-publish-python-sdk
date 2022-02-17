@@ -17,6 +17,9 @@
 #   Builds an environment to publish the Sawtooth Python SDK to PyPI.
 #   Two variables, $PYPI_USER and $PYPI_PASS, must be passed in at runtime
 #   using Docker's -e option.
+#
+# docker build -t sawtooth-publish-python-sdk -f ci/sawtooth-publish-python-sdk .
+# docker run --rm -v $(pwd):/project/sawtooth-sdk-python -e PYPI_USER=%user% -e PYPI_PASS=%pass% sawtooth-publish-python-sdk
 
 FROM ubuntu:bionic
 
