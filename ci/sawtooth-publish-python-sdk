@@ -45,7 +45,4 @@ CMD sed -i'' -e "s/@USER@/$PYPI_USER/g" /root/.pypirc \
  && sed -i'' -e "s/@PASS@/$PYPI_PASS/g" /root/.pypirc \
  && cd /project/sawtooth-sdk-python/ \
  && python3 setup.py sdist bdist_wheel \
- && twine upload dist/* \
- && cd /project/sawtooth-sdk-python/signing \
- && python3 setup.py sdist bdist_wheel \
  && twine upload dist/*
