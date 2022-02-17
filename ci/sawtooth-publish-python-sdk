@@ -31,7 +31,7 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
  && python3 -m pip install --upgrade pip \
- && pip3 install --upgrade setuptools twine \
+ && python3 -m pip install --upgrade setuptools twine \
  && echo '[distutils]\n\
 index-servers =\n\
   pypi\n\
