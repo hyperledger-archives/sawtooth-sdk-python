@@ -26,11 +26,17 @@ FROM ubuntu:bionic
 RUN apt-get update \
  && apt-get install gnupg -y
 
-RUN apt-get update \
+RUN echo "deb http://repo.sawtooth.me/ubuntu/ci bionic universe" >> /etc/apt/sources.list \
+ && (apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD \
+ || apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 8AA7AF1F1091A5FD) \
+ && apt-get update \
  && apt-get install -y \
     ca-certificates \
     python3 \
+    python3-grpcio-tools \
+    python3-grpcio \
     python3-pip \
+    python3-protobuf \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
  && python3 -m pip install --upgrade pip \
@@ -47,5 +53,6 @@ password=@PASS@\n\
 CMD sed -i'' -e "s/@USER@/$PYPI_USER/g" /root/.pypirc \
  && sed -i'' -e "s/@PASS@/$PYPI_PASS/g" /root/.pypirc \
  && cd /project/sawtooth-sdk-python/ \
+ && /project/sawtooth-sdk-python/bin/protogen \
  && python3 setup.py sdist bdist_wheel \
  && twine upload dist/*
