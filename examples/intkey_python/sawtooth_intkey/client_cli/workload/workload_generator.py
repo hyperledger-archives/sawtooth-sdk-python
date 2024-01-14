@@ -71,10 +71,9 @@ class WorkloadGenerator:
         self._time_since_last_check = time.time()
         self.loop.run_forever()
 
-    @asyncio.coroutine
-    def _simulator_loop(self):
+    async def _simulator_loop(self):
         while True:
-            yield from asyncio.sleep(self._rate)
+            await asyncio.sleep(self._rate)
             with self._lock:
                 now = time.time()
                 delta = now - self._time_since_last_check
