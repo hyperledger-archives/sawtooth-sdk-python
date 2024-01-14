@@ -219,8 +219,8 @@ class _SendReceiveThread(Thread):
                 self._monitor_sock = self._sock.get_monitor_socket(
                     zmq.EVENT_DISCONNECTED,
                     addr=self._monitor_fd)
-                self._send_queue = asyncio.Queue(loop=self._event_loop)
-                self._recv_queue = asyncio.Queue(loop=self._event_loop)
+                self._send_queue = asyncio.Queue()
+                self._recv_queue = asyncio.Queue()
                 if first_time is False:
                     self._recv_queue.put_nowait(RECONNECT_EVENT)
                 with self._condition:
