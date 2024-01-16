@@ -14,6 +14,7 @@
 # ------------------------------------------------------------------------------
 
 import asyncio
+import typing
 import uuid
 import logging
 from queue import Queue
@@ -66,7 +67,7 @@ class _SendReceiveThread(Thread):
         self._futures = futures
         self._url = url
         self._shutdown = False
-        self._event_loop = None
+        self._event_loop: typing.Optional[asyncio.AbstractEventLoop] = None
         self._sock = None
         self._monitor_sock = None
         self._monitor_fd = None
@@ -141,7 +142,7 @@ class _SendReceiveThread(Thread):
         LOGGER.debug("monitor socket received disconnect event")
         for future in self._futures.future_values():
             future.set_result(FutureError())
-        tasks = list(asyncio.Task.all_tasks(self._event_loop))
+        tasks = list(asyncio.all_tasks(self._event_loop))
         for task in tasks:
             task.cancel()
         self._event_loop.stop()
@@ -177,7 +178,7 @@ class _SendReceiveThread(Thread):
     def _cancel_tasks_yet_to_be_done(self):
         """Cancels all the tasks (pending coroutines and futures)
         """
-        tasks = list(asyncio.Task.all_tasks(self._event_loop))
+        tasks = list(asyncio.all_tasks(self._event_loop))
         for task in tasks:
             self._event_loop.call_soon_threadsafe(task.cancel)
         self._event_loop.call_soon_threadsafe(self._done_callback)
